@@ -1,18 +1,34 @@
 class Hydration {
-  constructor(hydrationData) {
-    this.hydrationData = hydrationData;
+  constructor(hydrationData, user) {
+    this.userID = user.id;
+    this.hydrationData = this.getHydrationData(hydrationData);
+  }
+  
+  getHydrationData(hydrationData) {
+    let filteredData = hydrationData.filter(data => {
+      return this.userID === data.userID
+    })
+      return filteredData.map( data => {
+       return {date: data.date, numOunces: data.numOunces}
+    })
+  }
+  
+  calculateAverageOunces() {
+    let totalOunces = this.hydrationData.reduce((total, data) => {
+      total += data.numOunces
+      return total 
+    }, 0)
+    return Math.round(totalOunces / this.hydrationData.length)
   }
 
-  calculateAverageOunces(id) {
-    const perDayUserHydration = this.hydrationData.filter((data) => id === data.userID);
-    return perDayUserHydration.reduce((sumSoFar, data) => sumSoFar += data.numOunces, 0) / perDayUserHydration.length;
+  calculateDailyOunces(date) {
+     let daily = this.hydrationData.find(data => {
+     return date === data.date
+     })
+  
+     return daily.numOunces
   }
-
-  calculateDailyOunces(id, date) {
-    const findOuncesByDate = this.hydrationData.find((data) => id === data.userID && date === data.date);
-    return findOuncesByDate.numOunces;
-  }
-
+  //complete refactoring following tests after refactoring userRepo
   calculateFirstWeekOunces(userRepo, id) {
     return userRepo.getFirstWeek(id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
   }
