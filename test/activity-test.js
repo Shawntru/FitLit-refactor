@@ -210,10 +210,10 @@ describe('Activity', () => {
   it.only('should return the miles a given user has walked on a given date', () => {
     expect(activity.getMilesFromStepsByDate('2019/06/23')).to.eql(7.3);
   });
-  it('should return the number of minutes a given user was active for on a given day', () => {
-    expect(activity.getActiveMinutesByDate(1, '2019/06/16')).to.eql(12);
+  it.only('should return the number of minutes a given user was active for on a given day', () => {
+    expect(activity.getActiveMinutesByDate('2019/06/16')).to.eql(12);
   });
-  it('should return average active minutes in a given week', () => {
+  it.only('should return average active minutes in a given week', () => {
     expect(activity.calculateActiveAverageForWeek(1, '2019/06/21', userRepo)).to.eql(40.4);
   });
   it('should return true/false if the given user met their step goal on a given day', () => {

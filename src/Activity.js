@@ -10,19 +10,25 @@ class Activity {
     });
   }
 
-  getMilesFromStepsByDate(date) {
-    let activityLog = this.activityData.find((data) => {
+  getActivityOnDate(date) {
+    return this.activityData.find((data) => {
       return date === data.date;
     })
+  }
+
+  getMilesFromStepsByDate(date) {
+    let activityLog = this.getActivityOnDate(date);
     let stepsPerMile = (5280 / this.user.strideLength);
     let milesWalked = (activityLog.numSteps / stepsPerMile);
     return (Math.round(milesWalked * 10) / 10);
   }
 
-  getActiveMinutesByDate(id, date) {
-    const userActivityByDate = this.activityData.find((data) => id === data.userID && date === data.date);
-    return userActivityByDate.minutesActive;
+  getActiveMinutesByDate(date) {
+    let activityLog = this.getActivityOnDate(date);
+    return activityLog.minutesActive;
   }
+
+  // TODO below: Refactor after refactoring UserRepo class
 
   calculateActiveAverageForWeek(id, date, userRepo) {
     return parseFloat((userRepo.getWeekFromDate(date, id, this.activityData).reduce((acc, elem) => acc += elem.minutesActive, 0) / 7).toFixed(1));
