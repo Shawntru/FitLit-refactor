@@ -1,11 +1,22 @@
 class Activity {
-  constructor(activityData) {
-    this.activityData = activityData;
+  constructor(activityData, user) {
+    this.user = user;
+    this.activityData = this.getUserActivityData(activityData);
   }
 
-  getMilesFromStepsByDate(id, date, userRepo) {
-    const userStepsByDate = this.activityData.find((data) => id === data.userID && date === data.date);
-    return parseFloat(((userStepsByDate.numSteps * userRepo.strideLength) / 5280).toFixed(1));
+  getUserActivityData(activityData) {
+    return activityData.filter((data) => {
+      return this.user.id === data.userID;
+    });
+  }
+
+  getMilesFromStepsByDate(date) {
+    let activityLog = this.activityData.find((data) => {
+      return date === data.date;
+    })
+    let stepsPerMile = (5280 / this.user.strideLength);
+    let milesWalked = (activityLog.numSteps / stepsPerMile);
+    return (Math.round(milesWalked * 10) / 10);
   }
 
   getActiveMinutesByDate(id, date) {
