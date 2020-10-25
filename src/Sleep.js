@@ -68,46 +68,49 @@ class Sleep {
     })
   }
 
+/*
+All methods below likely need to be moved to UserRepo class:
 
-//   calculateAllUserSleepQuality() {
-//     const totalSleepQuality = this.sleepData.reduce((sumSoFar, dataItem) => {
-//       sumSoFar += dataItem.sleepQuality;
-//       return sumSoFar;
-//     }, 0);
-//     return totalSleepQuality / sleepData.length;
-//   }
+  calculateAllUserSleepQuality() {
+    const totalSleepQuality = this.sleepData.reduce((sumSoFar, dataItem) => {
+      sumSoFar += dataItem.sleepQuality;
+      return sumSoFar;
+    }, 0);
+    return totalSleepQuality / sleepData.length;
+  }
 
-//   determineBestSleepers(date, userRepo) {
-//     const timeline = userRepo.chooseWeekDataForAllUsers(this.sleepData, date);
-//     const userSleepObject = userRepo.isolateUsernameAndRelevantData(this.sleepData, date, 'sleepQuality', timeline);
+  determineBestSleepers(date, userRepo) {
+    const timeline = userRepo.chooseWeekDataForAllUsers(this.sleepData, date);
+    const userSleepObject = userRepo.isolateUsernameAndRelevantData(this.sleepData, date, 'sleepQuality', timeline);
 
-//     return Object.keys(userSleepObject).filter((key) => (userSleepObject[key].reduce((sumSoFar, sleepQualityValue) => {
-//       sumSoFar += sleepQualityValue;
-//       return sumSoFar;
-//     }, 0) / userSleepObject[key].length) > 3).map((sleeper) => userRepo.getDataFromID(parseInt(sleeper)).name);
-//   }
+    return Object.keys(userSleepObject).filter((key) => (userSleepObject[key].reduce((sumSoFar, sleepQualityValue) => {
+      sumSoFar += sleepQualityValue;
+      return sumSoFar;
+    }, 0) / userSleepObject[key].length) > 3).map((sleeper) => userRepo.getDataFromID(parseInt(sleeper)).name);
+  }
 
-//   determineSleepWinnerForWeek(date, userRepo) {
-//     const timeline = userRepo.chooseWeekDataForAllUsers(this.sleepData, date);
-//     const sleepRankWithData = userRepo.combineRankedUserIDsAndAveragedData(this.sleepData, date, 'sleepQuality', timeline);
+  determineSleepWinnerForWeek(date, userRepo) {
+    const timeline = userRepo.chooseWeekDataForAllUsers(this.sleepData, date);
+    const sleepRankWithData = userRepo.combineRankedUserIDsAndAveragedData(this.sleepData, date, 'sleepQuality', timeline);
 
-//     return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
-//   }
+    return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
+  }
 
-//   determineSleepHoursWinnerForDay(date, userRepo) {
-//     const timeline = userRepo.chooseDayDataForAllUsers(this.sleepData, date);
-//     const sleepRankWithData = userRepo.combineRankedUserIDsAndAveragedData(this.sleepData, date, 'hoursSlept', timeline);
+  determineSleepHoursWinnerForDay(date, userRepo) {
+    const timeline = userRepo.chooseDayDataForAllUsers(this.sleepData, date);
+    const sleepRankWithData = userRepo.combineRankedUserIDsAndAveragedData(this.sleepData, date, 'hoursSlept', timeline);
 
-//     return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
-//   }
+    return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
+  }
 
-//   getWinnerNamesFromList(sortedArray, userRepo) {
-//     const bestSleepers = sortedArray.filter((element) => element[Object.keys(element)] === Object.values(sortedArray[0])[0]);
+  getWinnerNamesFromList(sortedArray, userRepo) {
+    const bestSleepers = sortedArray.filter((element) => element[Object.keys(element)] === Object.values(sortedArray[0])[0]);
 
-//     const bestSleeperIds = bestSleepers.map((bestSleeper) => (Object.keys(bestSleeper)));
+    const bestSleeperIds = bestSleepers.map((bestSleeper) => (Object.keys(bestSleeper)));
 
-//     return bestSleeperIds.map((sleepNumber) => userRepo.getDataFromID(parseInt(sleepNumber)).name);
-//   }
+    return bestSleeperIds.map((sleepNumber) => userRepo.getDataFromID(parseInt(sleepNumber)).name);
+  }
+*/
 }
 
 export default Sleep;
