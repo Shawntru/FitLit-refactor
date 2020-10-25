@@ -54,7 +54,11 @@ class Sleep {
     let endDate = this.userSleepData.findIndex(data =>{
       return data.date === date;
     })
-    return this.userSleepData.slice((endDate - 6), (endDate + 1));
+    let startDate = endDate
+    if (startDate < 6) {
+      startDate = 6;
+    };
+    return this.userSleepData.slice((startDate - 6), (endDate + 1));
   }
 
   getWeekData(date, dataKey) {
