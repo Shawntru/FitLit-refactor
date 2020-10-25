@@ -78,11 +78,6 @@ class Activity {
     return record;
   }
 
-  getAllUserAverageForDay(date, userRepo, relevantData) {
-    const selectedDayData = userRepo.chooseDayDataForAllUsers(this.activityData, date);
-    return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
-  }
-
   userDataForToday(id, date, userRepo, relevantData) {
     const userData = userRepo.getDataFromUserID(id, this.activityData);
     return userData.find((data) => data.date === date)[relevantData];
@@ -138,6 +133,16 @@ class Activity {
     const keysList = rankedList.map((listItem) => Object.keys(listItem));
     return parseInt(keysList[0].join(''));
   }
+
+
+  //TODO: Switch this method to User-repo class
+  getAllUserAverageForDay(date, userRepo, relevantData) {
+    const selectedDayData = userRepo.chooseDayDataForAllUsers(this.activityData, date);
+    return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
+  }
+  //**********
+
+
 }
 
 export default Activity;
