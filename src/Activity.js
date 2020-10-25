@@ -68,8 +68,14 @@ class Activity {
     return daysExceeded;
   }
 
-  getStairRecord(id) {
-    return this.activityData.filter((data) => id === data.userID).reduce((acc, elem) => ((elem.flightsOfStairs > acc) ? elem.flightsOfStairs : acc), 0);
+  getStairRecord() {
+    let record = 0;
+    this.activityData.forEach(element => {
+      if (element.flightsOfStairs > record) {
+        record = element.flightsOfStairs;
+      }
+    })
+    return record;
   }
 
   getAllUserAverageForDay(date, userRepo, relevantData) {
