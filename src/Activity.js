@@ -83,8 +83,13 @@ class Activity {
     return activityLog[key];
   }
 
-  userDataForWeek(id, date, userRepo, releventData) {
-    return userRepo.getWeekFromDate(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
+  userDataForWeek(date, key) {
+    let week = this.findGivenWeek(date);
+    let activityLog = [];
+    week.forEach(day => {
+      activityLog.unshift(`${day.date}: ${day[key]}`);
+    })
+    return activityLog;
   }
 
   // Friends

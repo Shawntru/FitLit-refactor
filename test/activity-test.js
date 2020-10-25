@@ -245,17 +245,17 @@ describe('Activity', () => {
   it.only('should return minutes active for given user on given date', () => {
     expect(activity.userDataForToday('2019/06/18', 'minutesActive')).to.eql(62);
   });
-  it('should return a weeks worth steps for a given user', () => {
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'numSteps')[0]).to.eql('2019/06/23: 9000');
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'numSteps')[3]).to.eql('2019/06/20: 9303');
+  it.only('should return a weeks worth steps for a given user', () => {
+    expect(activity.userDataForWeek('2019/06/23', 'numSteps')[0]).to.eql('2019/06/23: 9000');
+    expect(activity.userDataForWeek('2019/06/23', 'numSteps')[3]).to.eql('2019/06/20: 9303');
   });
-  it('should return a weeks worth active minutes for a given user', () => {
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'minutesActive')[0]).to.eql('2019/06/23: 8');
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'minutesActive')[3]).to.eql('2019/06/20: 7');
+  it.only('should return a weeks worth active minutes for a given user', () => {
+    expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[0]).to.eql('2019/06/23: 8');
+    expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[3]).to.eql('2019/06/20: 7');
   });
-  it('should return a weeks worth stairs for a given user', () => {
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'flightsOfStairs')[0]).to.eql('2019/06/23: 9');
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'flightsOfStairs')[3]).to.eql('2019/06/20: 4');
+  it.only('should return a weeks worth stairs for a given user', () => {
+    expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[0]).to.eql('2019/06/23: 9');
+    expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[3]).to.eql('2019/06/20: 4');
   });
 });
 
