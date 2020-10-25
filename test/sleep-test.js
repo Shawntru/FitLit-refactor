@@ -5,6 +5,13 @@ import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
 describe('Sleep', () => {
+
+  /*
+I don't believe this many users is needed for this test. However,
+we have discussed several tests (and corresponding methods in Sleep),
+need to be moved to UserRepo class. So I am leaving this data here for the time
+being. We can 
+  */
   let sleepData;
   let sleep;
   let sleep4
