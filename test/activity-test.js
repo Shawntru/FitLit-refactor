@@ -239,10 +239,11 @@ describe('Activity', () => {
   });
 
   it.only('should return steps for given user on given date', () => {
-    expect(activity.userDataForToday(2, '2019/06/15', userRepo, 'numSteps')).to.eql(4294);
+    // expect(activity.userDataForToday(2, '2019/06/15', userRepo, 'numSteps')).to.eql(4294);
+    expect(activity.userDataForToday('2019/06/15', 'numSteps')).to.eql(3577);
   });
-  it('should return minutes active for given user on given date', () => {
-    expect(activity.userDataForToday(1, '2019/06/18', userRepo, 'minutesActive')).to.eql(62);
+  it.only('should return minutes active for given user on given date', () => {
+    expect(activity.userDataForToday('2019/06/18', 'minutesActive')).to.eql(62);
   });
   it('should return a weeks worth steps for a given user', () => {
     expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'numSteps')[0]).to.eql('2019/06/23: 9000');

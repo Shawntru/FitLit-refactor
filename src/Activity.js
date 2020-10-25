@@ -78,9 +78,9 @@ class Activity {
     return record;
   }
 
-  userDataForToday(id, date, userRepo, relevantData) {
-    const userData = userRepo.getDataFromUserID(id, this.activityData);
-    return userData.find((data) => data.date === date)[relevantData];
+  userDataForToday(date, key) {
+    let activityLog = this.getActivityOnDate(date);
+    return activityLog[key];
   }
 
   userDataForWeek(id, date, userRepo, releventData) {
