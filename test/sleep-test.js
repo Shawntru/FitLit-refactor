@@ -323,15 +323,14 @@ describe('Sleep', () => {
     expect(sleep.getDailySleepQuality('2019/05/30')).to.equal(2.2);
   });
 
-  // it('should find sleep by day for that days week', () => {
-  //   expect(sleep4.calculateWeekSleep('2019/06/18', userRepo)[0]).to.eql('2019/06/18: 7.9');
-  //   expect(sleep4.calculateWeekSleep('2019/06/18', userRepo)[6]).to.eql('2017/06/15: 5.4');
-  // });
+  it.only('should find sleep by day for that days week', () => {
+    expect(sleep4.getWeekData('2019/06/18', 'hoursSlept')[0]).to.eql('2017/06/15: 5.4');
+    expect(sleep4.getWeekData('2019/06/18', 'hoursSlept')[6]).to.eql('2019/06/18: 7.9');
+  });
 
   it.only('should find sleep quality by day for that days week', () => {
-    console.log(sleep4.userSleepData)
-    expect(sleep4.calculateWeekSleepQuality('2019/06/18')[0]).to.eql('2019/06/18: 1.6');
-    expect(sleep4.calculateWeekSleepQuality('2019/06/18')[6]).to.eql('2017/06/15: 3');
+    expect(sleep4.getWeekData('2019/06/18', 'sleepQuality')[0]).to.eql('2017/06/15: 3');
+    expect(sleep4.getWeekData('2019/06/18', 'sleepQuality')[6]).to.eql('2019/06/18: 1.6');
   });
 
   /*
