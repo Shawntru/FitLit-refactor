@@ -200,21 +200,22 @@ describe('Activity', () => {
     userRepo = new UserRepo(users);
     activity = new Activity(activityData, user1);
   });
-  it.only('should take in data', () => {
+  it('should take in data', () => {
     expect(activity.activityData[0].userID).to.eql(1);
     expect(activity.activityData[4].date).to.eql('2019/06/19');
     expect(activity.activityData[3].numSteps).to.eql(3000);
     expect(activity.activityData[8].minutesActive).to.eql(8);
     expect(activity.activityData[8].flightsOfStairs).to.eql(9);
   });
-  it.only('should return the miles a given user has walked on a given date', () => {
+  it('should return the miles a given user has walked on a given date', () => {
     expect(activity.getMilesFromStepsByDate('2019/06/23')).to.eql(7.3);
   });
-  it.only('should return the number of minutes a given user was active for on a given day', () => {
+  it('should return the number of minutes a given user was active for on a given day', () => {
     expect(activity.getActiveMinutesByDate('2019/06/16')).to.eql(12);
   });
   it.only('should return average active minutes in a given week', () => {
-    expect(activity.calculateActiveAverageForWeek(1, '2019/06/21', userRepo)).to.eql(40.4);
+    // expect(activity.calculateActiveAverageForWeek(1, '2019/06/21', userRepo)).to.eql(40.4);
+    expect(activity.calculateActiveAverageForWeek('2019/06/21')).to.eql(40.4);
   });
   it('should return true/false if the given user met their step goal on a given day', () => {
     expect(activity.accomplishStepGoal(4, '2019/06/15', userRepo.users[3])).to.eql(false);

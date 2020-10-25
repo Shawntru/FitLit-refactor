@@ -1,6 +1,9 @@
 class Activity {
   constructor(activityData, user) {
+
+    //TODO: change to userId
     this.user = user;
+    this.userId = user.id;
     this.activityData = this.getUserActivityData(activityData);
   }
 
@@ -28,10 +31,20 @@ class Activity {
     return activityLog.minutesActive;
   }
 
-  // TODO below: Refactor after refactoring UserRepo class
+  calculateActiveAverageForWeek(date) {
+    let week = this.findGivenWeek(date);
+    let totalTime = week.reduce((totalMinutes, element) => {
+      totalMinutes += element.minutesActive;
+      return totalMinutes;
+    }, 0);
+    return (Math.round((totalTime / 7) * 10) / 10);
+  }
 
-  calculateActiveAverageForWeek(id, date, userRepo) {
-    return parseFloat((userRepo.getWeekFromDate(date, id, this.activityData).reduce((acc, elem) => acc += elem.minutesActive, 0) / 7).toFixed(1));
+  findGivenWeek(date) {
+    let endDate = this.activityData.findIndex(data =>{
+      return data.date === date;
+    })
+    return this.activityData.slice((endDate - 6), (endDate + 1));
   }
 
   accomplishStepGoal(id, date, userRepo) {
