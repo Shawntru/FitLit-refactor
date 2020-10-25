@@ -221,8 +221,10 @@ describe('Activity', () => {
     // expect(activity.accomplishStepGoal(4, '2019/06/15', userRepo.users[3])).to.eql(false);
     expect(activity.accomplishStepGoal('2019/06/15')).to.eql(false);
   });
-  it('should return all days that a given user exceeded their step goal', () => {
-    expect(activity.getDaysGoalExceeded(1, userRepo.users[0])).to.eql([
+  it.only('should return all days that a given user exceeded their step goal', () => {
+    // expect(activity.getDaysGoalExceeded(1, userRepo.users[0])).to.eql([
+    expect(activity.getDaysGoalExceeded()).to.eql([
+      '2019/06/16',
       '2019/06/17',
       '2019/06/19',
       '2019/06/20',

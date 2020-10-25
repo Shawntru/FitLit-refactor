@@ -3,7 +3,6 @@ class Activity {
 
     //TODO: change to userId
     this.user = user;
-    this.userId = user.id;
     this.activityData = this.getUserActivityData(activityData);
   }
 
@@ -41,14 +40,17 @@ class Activity {
   }
 
   findGivenWeek(date) {
-    let endDate = this.activityData.findIndex(data =>{
+    let sortedElements = this.activityData.sort((a, b) => {
+      return Date.parse(a.date) - Date.parse(b.date);
+    })
+    let endDateIndex = sortedElements.findIndex(data =>{
       return data.date === date;
     })
-    let startDate = endDate;
-    if (startDate < 6) {
-      startDate = 6;
+    let startDateIndex = endDateIndex;
+    if (startDateIndex < 6) {
+      startDateIndex = 6;
     }
-    return this.activityData.slice((startDate - 6), (endDate + 1));
+    return this.activityData.slice((startDateIndex - 6), (endDateIndex + 1));
   }
 
   accomplishStepGoal(date) {
@@ -56,8 +58,14 @@ class Activity {
     return (activityLog.numSteps >= this.user.dailyStepGoal);
   }
 
-  getDaysGoalExceeded(id, userRepo) {
-    return this.activityData.filter((data) => id === data.userID && data.numSteps > userRepo.dailyStepGoal).map((data) => data.date);
+  getDaysGoalExceeded() {
+    let daysExceeded = [];
+    this.activityData.forEach(element => {
+      if (this.accomplishStepGoal(element.date)) {
+        daysExceeded.push(element.date);
+      }
+    })
+    return daysExceeded;
   }
 
   getStairRecord(id) {
