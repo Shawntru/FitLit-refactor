@@ -25,6 +25,8 @@ class Hydration {
      let daily = this.hydrationData.find(data => {
      return date === data.date
      })
+     if(daily === undefined) 
+       return "Sorry there is no hydration data for that date"
      return daily.numOunces
    }
   
