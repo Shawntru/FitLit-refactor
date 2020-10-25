@@ -139,9 +139,14 @@ describe('Hydration', () => {
     expect(hydration.calculateDailyOunces('2018/02/01')).to.equal(28);
     expect(hydration.calculateDailyOunces('2019/03/15')).to.equal(35);
   });
+  
+  it.only('should have an error code if there is not data for water intake ona specific date', () => {
+      expect(hydration.calculateDailyOunces('2019/09/14')).to.equal("Sorry there is no hydration data for that date");
+  })
 
   it.only('should find water intake by day for first week', () => {
-    expect(hydration.calculateFirstWeekOunces('2019/09/21')).to.eql([ 30, 30, 40, 40, 30, 40, 61])
+    expect(hydration.calculateFirstWeekOunces('2019/09/18')).to.deep.eql([28, 35, 36, 30, 30, 40, 40])
+    expect(hydration.calculateFirstWeekOunces('2019/09/21')).to.deep.eql([ 30, 30, 40, 40, 30, 40, 61])
   });
 
   // it('should find  by day for that days week', () => {
