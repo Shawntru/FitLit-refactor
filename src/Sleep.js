@@ -59,22 +59,10 @@ class Sleep {
 
   getWeekData(date, dataKey) {
     let week = this.findGivenWeek(date)
-    console.log(week)
     return week.map(data => {
       return `${data.date}: ${data[dataKey]}`;
     })
-    // return userRepo.getWeekFromDate(date, id, this.sleepData).map((data) => `${data.date}: ${data.hoursSlept}`);
   }
-
- 
-
-  calculateWeekSleepQuality(date) {
-    let week = this.findGivenWeek(date)
-    return week.map(data => {
-      return `${data.date}: ${data.sleepQuality}`;
-    })
-  }
-
 
 
 //   calculateAllUserSleepQuality() {
