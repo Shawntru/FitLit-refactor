@@ -44,15 +44,16 @@ class Activity {
     let endDate = this.activityData.findIndex(data =>{
       return data.date === date;
     })
-    return this.activityData.slice((endDate - 6), (endDate + 1));
+    let startDate = endDate;
+    if (startDate < 6) {
+      startDate = 6;
+    }
+    return this.activityData.slice((startDate - 6), (endDate + 1));
   }
 
-  accomplishStepGoal(id, date, userRepo) {
-    const userStepsByDate = this.activityData.find((data) => id === data.userID && date === data.date);
-    if (userStepsByDate.numSteps === userRepo.dailyStepGoal) {
-      return true;
-    }
-    return false;
+  accomplishStepGoal(date) {
+    let activityLog = this.getActivityOnDate(date);
+    return (activityLog.numSteps >= this.user.dailyStepGoal);
   }
 
   getDaysGoalExceeded(id, userRepo) {
