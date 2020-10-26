@@ -327,16 +327,28 @@ being. We can update/move it as needed.
     expect(sleep.getDailySleep('2017/06/15')).to.equal(6.1);
     expect(sleep.getDailySleep('2019/08/22')).to.equal(10.1);
   });
+
+  it.only('should give an error message if there is no data for a specific date', () => {
+    expect(sleep.getDailySleep('2015/06/15')).to.equal("Sorry, there is no sleep data for that date.");
+  })
   
   it.only('should find the sleep quality for a user on a specified date', () => {
     expect(sleep.getDailySleepQuality('2018/07/15')).to.equal(3.6);
     expect(sleep.getDailySleepQuality('2019/05/30')).to.equal(2.2);
   });
 
+  it.only('should give an error message if there is no data for a specific date', () => {
+    expect(sleep.getDailySleepQuality('2015/06/15')).to.equal("Sorry, there is no sleep data for that date.");
+  })
+
   it.only('should find sleep by day for that days week', () => {
     expect(sleep4.getWeekData('2019/06/18', 'hoursSlept')[0]).to.eql('2017/06/15: 5.4');
     expect(sleep4.getWeekData('2019/06/18', 'hoursSlept')[6]).to.eql('2019/06/18: 7.9');
   });
+
+  it.only('should give an emtpy array if there is no data for a specific date', () => {
+    expect(sleep.getWeekData('2015/06/15')).to.equal("Sorry, there is no sleep data for that week.");
+  })
 
   it.only('should find sleep quality by day for that days week', () => {
     expect(sleep4.getWeekData('2019/06/18', 'sleepQuality')[0]).to.eql('2017/06/15: 3');
