@@ -1,37 +1,88 @@
 import sleepData from './data/sleep';
 
 class Sleep {
-  constructor(sleepData) {
-    this.sleepData = sleepData;
+  constructor(sleepData, user) {
+    this.userId = user.id;
+    this.userSleepData = this.getSleepData(sleepData);
   }
 
-  calculateAverageSleep(id) {
-    const perDaySleep = this.sleepData.filter((data) => id === data.userID);
-    return perDaySleep.reduce((sumSoFar, data) => sumSoFar += data.hoursSlept, 0) / perDaySleep.length;
+  getSleepData(sleepersData) {
+    let userSleep = sleepersData.filter(data => {
+      return this.userId === data.userID
+    })
+    return userSleep.map(data => {
+      return {
+        date: data.date,
+        hoursSlept: data.hoursSlept,
+        sleepQuality: data.sleepQuality,
+      }
+    })
   }
 
-  calculateAverageSleepQuality(id) {
-    const perDaySleepQuality = this.sleepData.filter((data) => id === data.userID);
-    return perDaySleepQuality.reduce((sumSoFar, data) => sumSoFar += data.sleepQuality, 0) / perDaySleepQuality.length;
+  calculateAverageSleep() {
+    let totalSleep = this.userSleepData.reduce((total, current) => {
+      total += current.hoursSlept;
+      return total
+    }, 0)
+    return Math.round(totalSleep / this.userSleepData.length);
   }
 
-  calculateDailySleep(id, date) {
-    const findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepByDate.hoursSlept;
+  calculateAverageSleepQuality() {
+    let totalSleepQuality = this.userSleepData.reduce((total, current) => {
+      total += current.sleepQuality;
+      return total
+    }, 0)
+    return Math.round(totalSleepQuality / this.userSleepData.length);
   }
 
-  calculateDailySleepQuality(id, date) {
-    const findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepQualityByDate.sleepQuality;
+  getDailySleep(givenDate) {
+    let dailySleep = this.userSleepData.find(data => {
+      return givenDate === data.date;
+    })
+    if (dailySleep === undefined) {
+      return "Sorry, there is no sleep data for that date.";
+    } else {
+    return dailySleep.hoursSlept;
+    }
   }
 
-  calculateWeekSleep(date, id, userRepo) {
-    return userRepo.getWeekFromDate(date, id, this.sleepData).map((data) => `${data.date}: ${data.hoursSlept}`);
+  getDailySleepQuality(givenDate) {
+    let dailyQuality = this.userSleepData.find(data => {
+      return givenDate === data.date;
+    })
+    if (dailyQuality === undefined) {
+      return "Sorry, there is no sleep data for that date.";
+    } else {
+    return dailyQuality.sleepQuality;
+    }
   }
 
-  calculateWeekSleepQuality(date, id, userRepo) {
-    return userRepo.getWeekFromDate(date, id, this.sleepData).map((data) => `${data.date}: ${data.sleepQuality}`);
+  findGivenWeek(date) {
+    this.userSleepData.sort()
+    let endDate = this.userSleepData.findIndex(data =>{
+      return data.date === date;
+    })
+    let startDate = endDate
+    if (startDate < 6) {
+      startDate = 6;
+    };
+    return this.userSleepData.slice((startDate - 6), (endDate + 1));
   }
+
+  getWeekData(date, dataKey) {
+    let week = this.findGivenWeek(date)
+    if (week.length < 1) {
+      return "Sorry, there is no sleep data for that week."
+    } else {
+    return week.map(data => {
+      return `${data.date}: ${data[dataKey]}`;
+    })
+    }
+  }
+
+/*
+TODO: All methods below likely need to be moved to UserRepo class:
+*/
 
   calculateAllUserSleepQuality() {
     const totalSleepQuality = this.sleepData.reduce((sumSoFar, dataItem) => {
