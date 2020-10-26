@@ -69,7 +69,8 @@ class Sleep {
   }
 
 /*
-All methods below likely need to be moved to UserRepo class:
+TODO: All methods below likely need to be moved to UserRepo class:
+*/
 
   calculateAllUserSleepQuality() {
     const totalSleepQuality = this.sleepData.reduce((sumSoFar, dataItem) => {
@@ -110,7 +111,6 @@ All methods below likely need to be moved to UserRepo class:
 
     return bestSleeperIds.map((sleepNumber) => userRepo.getDataFromID(parseInt(sleepNumber)).name);
   }
-*/
 }
 
 export default Sleep;

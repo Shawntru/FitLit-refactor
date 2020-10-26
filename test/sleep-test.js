@@ -10,7 +10,7 @@ describe('Sleep', () => {
 I don't believe this many users is needed for this test. However,
 we have discussed several tests (and corresponding methods in Sleep),
 need to be moved to UserRepo class. So I am leaving this data here for the time
-being. We can 
+being. We can update/move it as needed.
   */
   let sleepData;
   let sleep;
@@ -241,7 +241,6 @@ being. We can
       sleepQuality: 4,
     },
     ];
-
     
     user1 = new User({
       id: 1,
@@ -320,11 +319,15 @@ being. We can
     expect(sleep.calculateAverageSleepQuality()).to.equal(2);
   });
 
+  /*
+  TODO: need an edge case test for a non-existent date for all methods that take a date as an argument
+  */
+
   it.only('should find the sleep hours for a user on a specified date', () => {
     expect(sleep.getDailySleep('2017/06/15')).to.equal(6.1);
     expect(sleep.getDailySleep('2019/08/22')).to.equal(10.1);
   });
-
+  
   it.only('should find the sleep quality for a user on a specified date', () => {
     expect(sleep.getDailySleepQuality('2018/07/15')).to.equal(3.6);
     expect(sleep.getDailySleepQuality('2019/05/30')).to.equal(2.2);
@@ -341,7 +344,7 @@ being. We can
   });
 
   /*
-All tests below need to be moved to UserRepo-test in order to test the UserRepo class.
+  TODO: All tests below need to be moved to UserRepo-test in order to test the UserRepo class.
   */
 
   it('should determine the best quality sleepers for a week', () => {
