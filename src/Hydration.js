@@ -33,7 +33,7 @@ class Hydration {
   calculateFirstWeekOunces(date) {
     let weekData = this.findGivenWeek(date);
       let weekHydration = weekData.reduce((wholeWeek, day) => {
-        wholeWeek.push(day.numOunces)
+        wholeWeek.push(day)
         return wholeWeek
       }, [])
       return weekHydration
