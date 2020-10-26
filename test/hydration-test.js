@@ -145,8 +145,25 @@ describe('Hydration', () => {
   })
 
   it.only('should find water intake by day for first week', () => {
-    expect(hydration.calculateFirstWeekOunces('2019/09/18')).to.deep.eql([28, 35, 36, 30, 30, 40, 40])
-    expect(hydration.calculateFirstWeekOunces('2019/09/21')).to.deep.eql([ 30, 30, 40, 40, 30, 40, 61])
+    expect(hydration.calculateFirstWeekOunces('2019/09/18')).to.deep.eql([
+  { date: '2018/02/01', numOunces: 28 },
+  { date: '2019/03/15', numOunces: 35 },
+  { date: '2019/04/15', numOunces: 36 },
+  { date: '2019/09/15', numOunces: 30 },
+  { date: '2019/09/16', numOunces: 30 },
+  { date: '2019/09/17', numOunces: 40 },
+  { date: '2019/09/18', numOunces: 40 }
+]
+  )
+    expect(hydration.calculateFirstWeekOunces('2019/09/21')).to.deep.eql([
+  { date: '2019/09/15', numOunces: 30 },
+  { date: '2019/09/16', numOunces: 30 },
+  { date: '2019/09/17', numOunces: 40 },
+  { date: '2019/09/18', numOunces: 40 },
+  { date: '2019/09/19', numOunces: 30 },
+  { date: '2019/09/20', numOunces: 40 },
+  { date: '2019/09/21', numOunces: 61 }
+])
   });
 
   // it('should find  by day for that days week', () => {
