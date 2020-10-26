@@ -6,9 +6,9 @@ class Hydration {
   
   getHydrationData(hydrationData) {
     let filteredData = hydrationData.filter(data => {
-      return this.userId === data.userId
+      return this.userId === data.userID
     })
-      return filteredData.map( data => {
+       return filteredData.map( data => {
        return {date: data.date, numOunces: data.numOunces}
     })
   }
@@ -23,20 +23,20 @@ class Hydration {
 
   calculateDailyOunces(date) {
      let daily = this.hydrationData.find(data => {
-     return date === data.date
+       return date === data.date
      })
      if(daily === undefined) 
        return "Sorry there is no hydration data for that date"
      return daily.numOunces
-   }
+  }
   
   calculateFirstWeekOunces(date) {
     let weekData = this.findGivenWeek(date);
-      let weekHydration = weekData.reduce((wholeWeek, day) => {
-        wholeWeek.push(day)
-        return wholeWeek
-      }, [])
-      return weekHydration
+    let weekHydration = weekData.reduce((wholeWeek, day) => {
+      wholeWeek.push(day)
+      return wholeWeek
+    }, [])
+    return weekHydration
     }
   
     findGivenWeek(date) {
