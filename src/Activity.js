@@ -59,13 +59,9 @@ class Activity {
   }
 
   getDaysGoalExceeded() {
-    let daysExceeded = [];
-    this.activityData.forEach(element => {
-      if (this.accomplishStepGoal(element.date)) {
-        daysExceeded.push(element.date);
-      }
-    })
-    return daysExceeded;
+    return this.activityData
+      .filter(element => this.accomplishStepGoal(element.date))
+      .map(element => element.date);
   }
 
   getStairRecord() {
@@ -84,12 +80,9 @@ class Activity {
   }
 
   userDataForWeek(date, key) {
-    let week = this.findGivenWeek(date);
-    let activityLog = [];
-    week.forEach(day => {
-      activityLog.unshift(`${day.date}: ${day[key]}`);
-    })
-    return activityLog;
+    return this
+      .findGivenWeek(date)
+      .map(day => `${day.date}: ${day[key]}`);
   }
 
   // Friends

@@ -246,15 +246,15 @@ describe('Activity', () => {
     expect(activity.userDataForToday('2019/06/18', 'minutesActive')).to.eql(62);
   });
   it.only('should return a weeks worth steps for a given user', () => {
-    expect(activity.userDataForWeek('2019/06/23', 'numSteps')[0]).to.eql('2019/06/23: 9000');
+    expect(activity.userDataForWeek('2019/06/23', 'numSteps')[6]).to.eql('2019/06/23: 9000');
     expect(activity.userDataForWeek('2019/06/23', 'numSteps')[3]).to.eql('2019/06/20: 9303');
   });
   it.only('should return a weeks worth active minutes for a given user', () => {
-    expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[0]).to.eql('2019/06/23: 8');
+    expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[6]).to.eql('2019/06/23: 8');
     expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[3]).to.eql('2019/06/20: 7');
   });
   it.only('should return a weeks worth stairs for a given user', () => {
-    expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[0]).to.eql('2019/06/23: 9');
+    expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[6]).to.eql('2019/06/23: 9');
     expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[3]).to.eql('2019/06/20: 4');
   });
 });
@@ -424,70 +424,71 @@ describe('Friend Activity', () => {
   });
 
   it('should get a users friend lists activity', () => {
-    expect(activity.getFriendsActivity(user4, userRepo)).to.eql([{
+    expect(activity.getFriendsActivity(user4, userRepo)).to.eql(
+      [{
       userID: 1,
       date: '2019/06/15',
       numSteps: 3577,
       minutesActive: 140,
       flightsOfStairs: 16,
-    },
-    {
-      userID: 1,
-      date: '2019/06/14',
-      numSteps: 11374,
-      minutesActive: 213,
-      flightsOfStairs: 13,
-    },
-    {
-      userID: 1,
-      date: '2019/06/02',
-      numSteps: 6389,
-      minutesActive: 41,
-      flightsOfStairs: 33,
-    },
-    {
-      userID: 1,
-      date: '2019/06/16',
-      numSteps: 3578,
-      minutesActive: 140,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 1,
-      date: '2019/06/17',
-      numSteps: 3579,
-      minutesActive: 141,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 1,
-      date: '2019/06/18',
-      numSteps: 3580,
-      minutesActive: 142,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 2,
-      date: '2019/06/14',
-      numSteps: 4294,
-      minutesActive: 138,
-      flightsOfStairs: 10,
-    },
-    {
-      userID: 2,
-      date: '2019/06/13',
-      numSteps: 14810,
-      minutesActive: 287,
-      flightsOfStairs: 18,
-    },
-    {
-      userID: 2,
-      date: '2019/06/03',
-      numSteps: 8015,
-      minutesActive: 106,
-      flightsOfStairs: 37,
-    },
-    ]);
+      },
+      {
+        userID: 1,
+        date: '2019/06/14',
+        numSteps: 11374,
+        minutesActive: 213,
+        flightsOfStairs: 13,
+      },
+      {
+        userID: 1,
+        date: '2019/06/02',
+        numSteps: 6389,
+        minutesActive: 41,
+        flightsOfStairs: 33,
+      },
+      {
+        userID: 1,
+        date: '2019/06/16',
+        numSteps: 3578,
+        minutesActive: 140,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 1,
+        date: '2019/06/17',
+        numSteps: 3579,
+        minutesActive: 141,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 1,
+        date: '2019/06/18',
+        numSteps: 3580,
+        minutesActive: 142,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 2,
+        date: '2019/06/14',
+        numSteps: 4294,
+        minutesActive: 138,
+        flightsOfStairs: 10,
+      },
+      {
+        userID: 2,
+        date: '2019/06/13',
+        numSteps: 14810,
+        minutesActive: 287,
+        flightsOfStairs: 18,
+      },
+      {
+        userID: 2,
+        date: '2019/06/03',
+        numSteps: 8015,
+        minutesActive: 106,
+        flightsOfStairs: 37,
+      },
+      ]);
   });
 
   it('should get a users ranked friendslist activity for a chosen week', () => {
