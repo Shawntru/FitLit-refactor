@@ -39,14 +39,22 @@ class Sleep {
     let dailySleep = this.userSleepData.find(data => {
       return givenDate === data.date;
     })
+    if (dailySleep === undefined) {
+      return "Sorry, there is no sleep data for that date.";
+    } else {
     return dailySleep.hoursSlept;
+    }
   }
 
   getDailySleepQuality(givenDate) {
     let dailyQuality = this.userSleepData.find(data => {
       return givenDate === data.date;
     })
+    if (dailyQuality === undefined) {
+      return "Sorry, there is no sleep data for that date.";
+    } else {
     return dailyQuality.sleepQuality;
+    }
   }
 
   findGivenWeek(date) {
@@ -63,9 +71,13 @@ class Sleep {
 
   getWeekData(date, dataKey) {
     let week = this.findGivenWeek(date)
+    if (week.length < 1) {
+      return "Sorry, there is no sleep data for that week."
+    } else {
     return week.map(data => {
       return `${data.date}: ${data[dataKey]}`;
     })
+    }
   }
 
 /*
