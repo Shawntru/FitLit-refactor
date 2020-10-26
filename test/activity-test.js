@@ -14,146 +14,147 @@ describe('Activity', () => {
   let activity;
 
   beforeEach(() => {
-    activityData = [{
-      userID: 1,
-      date: '2019/06/15',
-      numSteps: 3577,
-      minutesActive: 140,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 2,
-      date: '2019/06/15',
-      numSteps: 4294,
-      minutesActive: 138,
-      flightsOfStairs: 10,
-    },
-    {
-      userID: 3,
-      date: '2019/06/15',
-      numSteps: 7402,
-      minutesActive: 116,
-      flightsOfStairs: 33,
-    },
-    {
-      userID: 4,
-      date: '2019/06/15',
-      numSteps: 3486,
-      minutesActive: 114,
-      flightsOfStairs: 32,
-    },
-    {
-      userID: 5,
-      date: '2019/06/15',
-      numSteps: 11374,
-      minutesActive: 213,
-      flightsOfStairs: 13,
-    },
-    {
-      userID: 6,
-      date: '2019/06/15',
-      numSteps: 14810,
-      minutesActive: 287,
-      flightsOfStairs: 18,
-    },
-    {
-      userID: 7,
-      date: '2019/06/15',
-      numSteps: 2634,
-      minutesActive: 107,
-      flightsOfStairs: 5,
-    },
-    {
-      userID: 11,
-      date: '2019/06/15',
-      numSteps: 10333,
-      minutesActive: 114,
-      flightsOfStairs: 31,
-    },
-    {
-      userID: 11,
-      date: '2019/06/15',
-      numSteps: 6389,
-      minutesActive: 41,
-      flightsOfStairs: 33,
-    },
-    {
-      userID: 10,
-      date: '2019/06/15',
-      numSteps: 8015,
-      minutesActive: 106,
-      flightsOfStairs: 37,
-    },
-    {
-      userID: 11,
-      date: '2019/06/15',
-      numSteps: 11652,
-      minutesActive: 20,
-      flightsOfStairs: 24,
-    },
-    {
-      userID: 12,
-      date: '2019/06/15',
-      numSteps: 9256,
-      minutesActive: 108,
-      flightsOfStairs: 2,
-    },
-    {
-      userID: 1,
-      date: '2019/06/16',
-      numSteps: 5000,
-      minutesActive: 12,
-      flightsOfStairs: 14,
-    },
-    {
-      userID: 1,
-      date: '2019/06/17',
-      numSteps: 9303,
-      minutesActive: 45,
-      flightsOfStairs: 9,
-    },
-    {
-      userID: 1,
-      date: '2019/06/18',
-      numSteps: 3000,
-      minutesActive: 62,
-      flightsOfStairs: 23,
-    },
-    {
-      userID: 1,
-      date: '2019/06/19',
-      numSteps: 9303,
-      minutesActive: 4,
-      flightsOfStairs: 2,
-    },
-    {
-      userID: 1,
-      date: '2019/06/20',
-      numSteps: 9303,
-      minutesActive: 7,
-      flightsOfStairs: 4,
-    },
-    {
-      userID: 1,
-      date: '2019/06/21',
-      numSteps: 12000,
-      minutesActive: 13,
-      flightsOfStairs: 26,
-    },
-    {
-      userID: 1,
-      date: '2019/06/22',
-      numSteps: 9303,
-      minutesActive: 21,
-      flightsOfStairs: 14,
-    },
-    {
-      userID: 1,
-      date: '2019/06/23',
-      numSteps: 9000,
-      minutesActive: 8,
-      flightsOfStairs: 9,
-    },
+    activityData = [
+      {
+        userID: 1,
+        date: '2019/06/15',
+        numSteps: 3577,
+        minutesActive: 140,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 2,
+        date: '2019/06/15',
+        numSteps: 4294,
+        minutesActive: 138,
+        flightsOfStairs: 10,
+      },
+      {
+        userID: 3,
+        date: '2019/06/15',
+        numSteps: 7402,
+        minutesActive: 116,
+        flightsOfStairs: 33,
+      },
+      {
+        userID: 4,
+        date: '2019/06/15',
+        numSteps: 3486,
+        minutesActive: 114,
+        flightsOfStairs: 32,
+      },
+      {
+        userID: 5,
+        date: '2019/06/15',
+        numSteps: 11374,
+        minutesActive: 213,
+        flightsOfStairs: 13,
+      },
+      {
+        userID: 6,
+        date: '2019/06/15',
+        numSteps: 14810,
+        minutesActive: 287,
+        flightsOfStairs: 18,
+      },
+      {
+        userID: 7,
+        date: '2019/06/15',
+        numSteps: 2634,
+        minutesActive: 107,
+        flightsOfStairs: 5,
+      },
+      {
+        userID: 11,
+        date: '2019/06/15',
+        numSteps: 10333,
+        minutesActive: 114,
+        flightsOfStairs: 31,
+      },
+      {
+        userID: 11,
+        date: '2019/06/15',
+        numSteps: 6389,
+        minutesActive: 41,
+        flightsOfStairs: 33,
+      },
+      {
+        userID: 10,
+        date: '2019/06/15',
+        numSteps: 8015,
+        minutesActive: 106,
+        flightsOfStairs: 37,
+      },
+      {
+        userID: 11,
+        date: '2019/06/15',
+        numSteps: 11652,
+        minutesActive: 20,
+        flightsOfStairs: 24,
+      },
+      {
+        userID: 12,
+        date: '2019/06/15',
+        numSteps: 9256,
+        minutesActive: 108,
+        flightsOfStairs: 2,
+      },
+      {
+        userID: 1,
+        date: '2019/06/16',
+        numSteps: 5000,
+        minutesActive: 12,
+        flightsOfStairs: 14,
+      },
+      {
+        userID: 1,
+        date: '2019/06/17',
+        numSteps: 9303,
+        minutesActive: 45,
+        flightsOfStairs: 9,
+      },
+      {
+        userID: 1,
+        date: '2019/06/18',
+        numSteps: 3000,
+        minutesActive: 62,
+        flightsOfStairs: 23,
+      },
+      {
+        userID: 1,
+        date: '2019/06/19',
+        numSteps: 9303,
+        minutesActive: 4,
+        flightsOfStairs: 2,
+      },
+      {
+        userID: 1,
+        date: '2019/06/20',
+        numSteps: 9303,
+        minutesActive: 7,
+        flightsOfStairs: 4,
+      },
+      {
+        userID: 1,
+        date: '2019/06/21',
+        numSteps: 12000,
+        minutesActive: 13,
+        flightsOfStairs: 26,
+      },
+      {
+        userID: 1,
+        date: '2019/06/22',
+        numSteps: 9303,
+        minutesActive: 21,
+        flightsOfStairs: 14,
+      },
+      {
+        userID: 1,
+        date: '2019/06/23',
+        numSteps: 9000,
+        minutesActive: 8,
+        flightsOfStairs: 9,
+      },
     ];
 
     user1 = new User({
@@ -197,29 +198,33 @@ describe('Activity', () => {
     });
     users = [user1, user2, user3, user4];
     userRepo = new UserRepo(users);
-    activity = new Activity(activityData);
+    activity = new Activity(activityData, user1);
   });
-  it('should take in data', () => {
+  it.only('should take in data', () => {
     expect(activity.activityData[0].userID).to.eql(1);
-    expect(activity.activityData[4].date).to.eql('2019/06/15');
-    expect(activity.activityData[3].numSteps).to.eql(3486);
-    expect(activity.activityData[8].minutesActive).to.eql(41);
-    expect(activity.activityData[10].flightsOfStairs).to.eql(24);
+    expect(activity.activityData[4].date).to.eql('2019/06/19');
+    expect(activity.activityData[3].numSteps).to.eql(3000);
+    expect(activity.activityData[8].minutesActive).to.eql(8);
+    expect(activity.activityData[8].flightsOfStairs).to.eql(9);
   });
-  it('should return the miles a given user has walked on a given date', () => {
-    expect(activity.getMilesFromStepsByDate(1, '2019/06/15', userRepo.users[0])).to.eql(2.9);
+  it.only('should return the miles a given user has walked on a given date', () => {
+    expect(activity.getMilesFromStepsByDate('2019/06/23')).to.eql(7.3);
   });
-  it('should return the number of minutes a given user was active for on a given day', () => {
-    expect(activity.getActiveMinutesByDate(1, '2019/06/16')).to.eql(12);
+  it.only('should return the number of minutes a given user was active for on a given day', () => {
+    expect(activity.getActiveMinutesByDate('2019/06/16')).to.eql(12);
   });
-  it('should return average active minutes in a given week', () => {
-    expect(activity.calculateActiveAverageForWeek(1, '2019/06/21', userRepo)).to.eql(40.4);
+  it.only('should return average active minutes in a given week', () => {
+    // expect(activity.calculateActiveAverageForWeek(1, '2019/06/21', userRepo)).to.eql(40.4);
+    expect(activity.calculateActiveAverageForWeek('2019/06/21')).to.eql(40.4);
   });
-  it('should return true/false if the given user met their step goal on a given day', () => {
-    expect(activity.accomplishStepGoal(4, '2019/06/15', userRepo.users[3])).to.eql(false);
+  it.only('should return true/false if the given user met their step goal on a given day', () => {
+    // expect(activity.accomplishStepGoal(4, '2019/06/15', userRepo.users[3])).to.eql(false);
+    expect(activity.accomplishStepGoal('2019/06/15')).to.eql(false);
   });
-  it('should return all days that a given user exceeded their step goal', () => {
-    expect(activity.getDaysGoalExceeded(1, userRepo.users[0])).to.eql([
+  it.only('should return all days that a given user exceeded their step goal', () => {
+    // expect(activity.getDaysGoalExceeded(1, userRepo.users[0])).to.eql([
+    expect(activity.getDaysGoalExceeded()).to.eql([
+      '2019/06/16',
       '2019/06/17',
       '2019/06/19',
       '2019/06/20',
@@ -228,77 +233,29 @@ describe('Activity', () => {
       '2019/06/23',
     ]);
   });
-  it('should return the highest number of stairs climbed in a day for all time', () => {
-    expect(activity.getStairRecord(11)).to.eql(33);
+  it.only('should return the highest number of stairs climbed in a day for all time', () => {
+    // expect(activity.getStairRecord()).to.eql(33);
+    expect(activity.getStairRecord()).to.eql(26);
   });
 
-  it('should return the average flight of stairs for all users on given day', () => {
-    expect(activity.getAllUserAverageForDay('2019/06/15', userRepo, 'flightsOfStairs')).to.eql(21.2);
+  it.only('should return steps for given user on given date', () => {
+    // expect(activity.userDataForToday(2, '2019/06/15', userRepo, 'numSteps')).to.eql(4294);
+    expect(activity.userDataForToday('2019/06/15', 'numSteps')).to.eql(3577);
   });
-
-  it('should return average steps taken for given date for all users', () => {
-    activityData = activityData.push({
-      userID: 1,
-      date: '2019/06/23',
-      numSteps: 12000,
-      minutesActive: 13,
-      flightsOfStairs: 26,
-    }, {
-      userID: 2,
-      date: '2019/06/23',
-      numSteps: 9000,
-      minutesActive: 21,
-      flightsOfStairs: 14,
-    }, {
-      userID: 3,
-      date: '2019/06/23',
-      numSteps: 2000,
-      minutesActive: 8,
-      flightsOfStairs: 9,
-    });
-    expect(activity.getAllUserAverageForDay('2019/06/23', userRepo, 'numSteps')).to.eql(8000);
+  it.only('should return minutes active for given user on given date', () => {
+    expect(activity.userDataForToday('2019/06/18', 'minutesActive')).to.eql(62);
   });
-
-  it('should return average minutes active given date for all users', () => {
-    activityData = activityData.push({
-      userID: 1,
-      date: '2019/06/23',
-      numSteps: 12000,
-      minutesActive: 13,
-      flightsOfStairs: 26,
-    }, {
-      userID: 2,
-      date: '2019/06/23',
-      numSteps: 9000,
-      minutesActive: 21,
-      flightsOfStairs: 14,
-    }, {
-      userID: 3,
-      date: '2019/06/23',
-      numSteps: 2000,
-      minutesActive: 8,
-      flightsOfStairs: 9,
-    });
-    expect(activity.getAllUserAverageForDay('2019/06/23', userRepo, 'minutesActive')).to.eql(12.5);
+  it.only('should return a weeks worth steps for a given user', () => {
+    expect(activity.userDataForWeek('2019/06/23', 'numSteps')[6]).to.eql('2019/06/23: 9000');
+    expect(activity.userDataForWeek('2019/06/23', 'numSteps')[3]).to.eql('2019/06/20: 9303');
   });
-
-  it('should return steps for given user on given date', () => {
-    expect(activity.userDataForToday(2, '2019/06/15', userRepo, 'numSteps')).to.eql(4294);
+  it.only('should return a weeks worth active minutes for a given user', () => {
+    expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[6]).to.eql('2019/06/23: 8');
+    expect(activity.userDataForWeek('2019/06/23', 'minutesActive')[3]).to.eql('2019/06/20: 7');
   });
-  it('should return minutes active for given user on given date', () => {
-    expect(activity.userDataForToday(1, '2019/06/18', userRepo, 'minutesActive')).to.eql(62);
-  });
-  it('should return a weeks worth steps for a given user', () => {
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'numSteps')[0]).to.eql('2019/06/23: 9000');
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'numSteps')[3]).to.eql('2019/06/20: 9303');
-  });
-  it('should return a weeks worth active minutes for a given user', () => {
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'minutesActive')[0]).to.eql('2019/06/23: 8');
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'minutesActive')[3]).to.eql('2019/06/20: 7');
-  });
-  it('should return a weeks worth stairs for a given user', () => {
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'flightsOfStairs')[0]).to.eql('2019/06/23: 9');
-    expect(activity.userDataForWeek(1, '2019/06/23', userRepo, 'flightsOfStairs')[3]).to.eql('2019/06/20: 4');
+  it.only('should return a weeks worth stairs for a given user', () => {
+    expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[6]).to.eql('2019/06/23: 9');
+    expect(activity.userDataForWeek('2019/06/23', 'flightsOfStairs')[3]).to.eql('2019/06/20: 4');
   });
 });
 
@@ -467,70 +424,71 @@ describe('Friend Activity', () => {
   });
 
   it('should get a users friend lists activity', () => {
-    expect(activity.getFriendsActivity(user4, userRepo)).to.eql([{
+    expect(activity.getFriendsActivity(user4, userRepo)).to.eql(
+      [{
       userID: 1,
       date: '2019/06/15',
       numSteps: 3577,
       minutesActive: 140,
       flightsOfStairs: 16,
-    },
-    {
-      userID: 1,
-      date: '2019/06/14',
-      numSteps: 11374,
-      minutesActive: 213,
-      flightsOfStairs: 13,
-    },
-    {
-      userID: 1,
-      date: '2019/06/02',
-      numSteps: 6389,
-      minutesActive: 41,
-      flightsOfStairs: 33,
-    },
-    {
-      userID: 1,
-      date: '2019/06/16',
-      numSteps: 3578,
-      minutesActive: 140,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 1,
-      date: '2019/06/17',
-      numSteps: 3579,
-      minutesActive: 141,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 1,
-      date: '2019/06/18',
-      numSteps: 3580,
-      minutesActive: 142,
-      flightsOfStairs: 16,
-    },
-    {
-      userID: 2,
-      date: '2019/06/14',
-      numSteps: 4294,
-      minutesActive: 138,
-      flightsOfStairs: 10,
-    },
-    {
-      userID: 2,
-      date: '2019/06/13',
-      numSteps: 14810,
-      minutesActive: 287,
-      flightsOfStairs: 18,
-    },
-    {
-      userID: 2,
-      date: '2019/06/03',
-      numSteps: 8015,
-      minutesActive: 106,
-      flightsOfStairs: 37,
-    },
-    ]);
+      },
+      {
+        userID: 1,
+        date: '2019/06/14',
+        numSteps: 11374,
+        minutesActive: 213,
+        flightsOfStairs: 13,
+      },
+      {
+        userID: 1,
+        date: '2019/06/02',
+        numSteps: 6389,
+        minutesActive: 41,
+        flightsOfStairs: 33,
+      },
+      {
+        userID: 1,
+        date: '2019/06/16',
+        numSteps: 3578,
+        minutesActive: 140,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 1,
+        date: '2019/06/17',
+        numSteps: 3579,
+        minutesActive: 141,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 1,
+        date: '2019/06/18',
+        numSteps: 3580,
+        minutesActive: 142,
+        flightsOfStairs: 16,
+      },
+      {
+        userID: 2,
+        date: '2019/06/14',
+        numSteps: 4294,
+        minutesActive: 138,
+        flightsOfStairs: 10,
+      },
+      {
+        userID: 2,
+        date: '2019/06/13',
+        numSteps: 14810,
+        minutesActive: 287,
+        flightsOfStairs: 18,
+      },
+      {
+        userID: 2,
+        date: '2019/06/03',
+        numSteps: 8015,
+        minutesActive: 106,
+        flightsOfStairs: 37,
+      },
+      ]);
   });
 
   it('should get a users ranked friendslist activity for a chosen week', () => {
@@ -557,4 +515,61 @@ describe('Friend Activity', () => {
   it('should show a 3-day increasing streak for a users minutes of activity', () => {
     expect(activity.getStreak(userRepo, 1, 'minutesActive')).to.eql(['2019/06/18']);
   });
+
+
+  //TODO: Switch this test to User-repo class
+
+  it('should return the average flight of stairs for all users on given day', () => {
+    expect(activity.getAllUserAverageForDay('2019/06/15', userRepo, 'flightsOfStairs')).to.eql(21.2);
+  });
+
+  it('should return average steps taken for given date for all users', () => {
+    activityData = activityData.push({
+      userID: 1,
+      date: '2019/06/23',
+      numSteps: 12000,
+      minutesActive: 13,
+      flightsOfStairs: 26,
+    }, {
+      userID: 2,
+      date: '2019/06/23',
+      numSteps: 9000,
+      minutesActive: 21,
+      flightsOfStairs: 14,
+    }, {
+      userID: 3,
+      date: '2019/06/23',
+      numSteps: 2000,
+      minutesActive: 8,
+      flightsOfStairs: 9,
+    });
+    expect(activity.getAllUserAverageForDay('2019/06/23', userRepo, 'numSteps')).to.eql(8000);
+  });
+
+  it('should return average minutes active given date for all users', () => {
+    activityData = activityData.push({
+      userID: 1,
+      date: '2019/06/23',
+      numSteps: 12000,
+      minutesActive: 13,
+      flightsOfStairs: 26,
+    }, {
+      userID: 2,
+      date: '2019/06/23',
+      numSteps: 9000,
+      minutesActive: 21,
+      flightsOfStairs: 14,
+    }, {
+      userID: 3,
+      date: '2019/06/23',
+      numSteps: 2000,
+      minutesActive: 8,
+      flightsOfStairs: 9,
+    });
+    expect(activity.getAllUserAverageForDay('2019/06/23', userRepo, 'minutesActive')).to.eql(12.5);
+  });
+
+  //***********************************//
+
+
 });
