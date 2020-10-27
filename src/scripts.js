@@ -15,7 +15,7 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
-let userRepo = [];
+let userRepo;
 window.onload = startApp();
 const sidebarName = document.getElementById('sidebarName');
 const stepGoalCard = document.getElementById('stepGoalCard');
@@ -53,22 +53,23 @@ const streakListMinutes = document.getElementById('streakListMinutes');
 function startApp() {
   // const userList = [];
   // makeUsers(userList);
+  debugger
   userRepo = new UserRepo(userData);
-  console.log('something')
+  console.log(userRepo)
   // const hydrationRepo = new Hydration(hydrationData);
   // const sleepRepo = new Sleep(sleepData);
   // const activityRepo = new Activity(activityData);
-  const userNowId = pickUser();
-  const userNow = getUserById(userNowId, userRepo);
-  const today = makeToday(userRepo, userNowId, hydrationData);
-  const randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
-  historicalWeek.forEach((instance) => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
-  addInfoToSidebar(userNow, userRepo);
-  addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
-  addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
-  const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
-  addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
-  addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+  // const userNowId = pickUser();
+  // const userNow = getUserById(userNowId, userRepo);
+  // const today = makeToday(userRepo, userNowId, hydrationData);
+  // const randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
+  // historicalWeek.forEach((instance) => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
+  // addInfoToSidebar(userNow, userRepo);
+  // addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
+  // addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
+  // const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
+  // addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
+  // addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
 // function makeUsers(array) {

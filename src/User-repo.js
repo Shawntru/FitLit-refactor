@@ -7,7 +7,7 @@ class UserRepo {
   }
   
   createUsers(userData) {
-    userData.map(user => {
+    return userData.map(user => {
       return new User(user)
     })
   }
