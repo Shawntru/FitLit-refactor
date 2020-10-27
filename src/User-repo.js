@@ -1,8 +1,18 @@
-class UserRepo {
-  constructor(users) {
-    this.users = users;
-  }
+import User from '../src/User';
 
+class UserRepo {
+  constructor(userData) {
+    this.users = this.createUsers(userData);
+    
+  }
+  
+  createUsers(userData) {
+    return userData.map(user => {
+      return new User(user)
+    })
+  }
+  
+  
   getDataFromID(id) {
     return this.users.find((user) => id === user.id);
   }
