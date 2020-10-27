@@ -1,5 +1,8 @@
 import { expect } from 'chai';
 
+import Hydration from '../src/Hydration';
+import Sleep from '../src/Sleep';
+import Activity from '../src/Activity';
 import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
