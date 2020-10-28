@@ -1,15 +1,11 @@
-class Activity {
+import FitnessData from './FitnessData';
+
+class Activity extends FitnessData {
   constructor(activityData, user) {
-
-    //TODO: change to userId
+    super();
+    this.userId = user.id;
     this.user = user;
-    this.activityData = this.getUserActivityData(activityData);
-  }
-
-  getUserActivityData(activityData) {
-    return activityData.filter((data) => {
-      return this.user.id === data.userID;
-    });
+    this.activityData = this.getRelevantData(activityData);
   }
 
   getActivityOnDate(date) {
@@ -31,7 +27,7 @@ class Activity {
   }
 
   calculateActiveAverageForWeek(date) {
-    let week = this.findGivenWeek(date);
+    let week = this.findGivenWeek(date, 'activityData');
     let totalTime = week.reduce((totalMinutes, element) => {
       totalMinutes += element.minutesActive;
       return totalMinutes;
@@ -39,19 +35,19 @@ class Activity {
     return (Math.round((totalTime / 7) * 10) / 10);
   }
 
-  findGivenWeek(date) {
-    let sortedElements = this.activityData.sort((a, b) => {
-      return Date.parse(a.date) - Date.parse(b.date);
-    })
-    let endDateIndex = sortedElements.findIndex(data =>{
-      return data.date === date;
-    })
-    let startDateIndex = endDateIndex;
-    if (startDateIndex < 6) {
-      startDateIndex = 6;
-    }
-    return this.activityData.slice((startDateIndex - 6), (endDateIndex + 1));
-  }
+  // findGivenWeek(date) {
+  //   let sortedElements = this.activityData.sort((a, b) => {
+  //     return Date.parse(a.date) - Date.parse(b.date);
+  //   })
+  //   let endDateIndex = sortedElements.findIndex(data =>{
+  //     return data.date === date;
+  //   })
+  //   let startDateIndex = endDateIndex;
+  //   if (startDateIndex < 6) {
+  //     startDateIndex = 6;
+  //   }
+  //   return this.activityData.slice((startDateIndex - 6), (endDateIndex + 1));
+  // }
 
   accomplishStepGoal(date) {
     let activityLog = this.getActivityOnDate(date);
@@ -81,7 +77,7 @@ class Activity {
 
   userDataForWeek(date, key) {
     return this
-      .findGivenWeek(date)
+      .findGivenWeek(date, 'activityData')
       .map(day => `${day.date}: ${day[key]}`);
   }
 

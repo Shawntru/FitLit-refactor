@@ -18,7 +18,7 @@ class User {
     this.sleep = new Sleep(sleepData, this);
     this.hydration = new Hydration(hydrationData, this);
   }
-  
+
   getFirstName() {
     return this.name.split(' ', 1).join();
   }

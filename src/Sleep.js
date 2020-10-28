@@ -1,22 +1,11 @@
-import sleepData from './data/sleep';
+// import sleepData from './data/sleep';
+import FitnessData from './FitnessData';
 
-class Sleep {
+class Sleep extends FitnessData {
   constructor(sleepData, user) {
+    super();
     this.userId = user.id;
-    this.userSleepData = this.getSleepData(sleepData);
-  }
-
-  getSleepData(sleepersData) {
-    let userSleep = sleepersData.filter(data => {
-      return this.userId === data.userID
-    })
-    return userSleep.map(data => {
-      return {
-        date: data.date,
-        hoursSlept: data.hoursSlept,
-        sleepQuality: data.sleepQuality,
-      }
-    })
+    this.userSleepData = this.getRelevantData(sleepData);
   }
 
   calculateAverageSleep() {
@@ -57,20 +46,20 @@ class Sleep {
     }
   }
 
-  findGivenWeek(date) {
-    this.userSleepData.sort()
-    let endDate = this.userSleepData.findIndex(data =>{
-      return data.date === date;
-    })
-    let startDate = endDate
-    if (startDate < 6) {
-      startDate = 6;
-    };
-    return this.userSleepData.slice((startDate - 6), (endDate + 1));
-  }
+  // findGivenWeek(date) {
+  //   this.userSleepData.sort()
+  //   let endDate = this.userSleepData.findIndex(data =>{
+  //     return data.date === date;
+  //   })
+  //   let startDate = endDate
+  //   if (startDate < 6) {
+  //     startDate = 6;
+  //   };
+  //   return this.userSleepData.slice((startDate - 6), (endDate + 1));
+  // }
 
   getWeekData(date, dataKey) {
-    let week = this.findGivenWeek(date)
+    let week = this.findGivenWeek(date, 'userSleepData')
     if (week.length < 1) {
       return "Sorry, there is no sleep data for that week."
     } else {

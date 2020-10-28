@@ -9,13 +9,14 @@ import hydrationData from './data/hydration';
 import sleepData from './data/sleep';
 import activityData from './data/activity';
 
+import FitnessData from './FitnessData';
 import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
-let userRepo;
+let userRepo = [];
 window.onload = startApp();
 const sidebarName = document.getElementById('sidebarName');
 const stepGoalCard = document.getElementById('stepGoalCard');
@@ -53,7 +54,6 @@ const streakListMinutes = document.getElementById('streakListMinutes');
 function startApp() {
   // const userList = [];
   // makeUsers(userList);
-  debugger
   userRepo = new UserRepo(userData);
   console.log(userRepo)
   // const hydrationRepo = new Hydration(hydrationData);
@@ -183,5 +183,3 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
-
-
