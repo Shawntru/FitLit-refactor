@@ -7,13 +7,13 @@ class Hydration extends FitnessData {
     this.hydrationData = this.getRelevantData(hydrationData);
   }
 
-  calculateAverageOunces() {
-    let totalOunces = this.hydrationData.reduce((total, data) => {
-      total += data.numOunces
-      return total
-    }, 0)
-    return Math.round(totalOunces / this.hydrationData.length)
-  }
+  // calculateAverageOunces() {
+  //   let totalOunces = this.hydrationData.reduce((total, data) => {
+  //     total += data.numOunces
+  //     return total
+  //   }, 0)
+  //   return Math.round(totalOunces / this.hydrationData.length)
+  // }
 
   calculateDailyOunces(date) {
      let daily = this.hydrationData.find(data => {

@@ -7,22 +7,22 @@ class Sleep extends FitnessData {
     this.userId = user.id;
     this.userSleepData = this.getRelevantData(sleepData);
   }
-
-  calculateAverageSleep() {
-    let totalSleep = this.userSleepData.reduce((total, current) => {
-      total += current.hoursSlept;
-      return total
-    }, 0)
-    return Math.round(totalSleep / this.userSleepData.length);
-  }
-
-  calculateAverageSleepQuality() {
-    let totalSleepQuality = this.userSleepData.reduce((total, current) => {
-      total += current.sleepQuality;
-      return total
-    }, 0)
-    return Math.round(totalSleepQuality / this.userSleepData.length);
-  }
+  //
+  // calculateDailySleep() {
+  //   let totalSleep = this.userSleepData.reduce((total, current) => {
+  //     total += current.hoursSlept;
+  //     return total
+  //   }, 0)
+  //   return Math.round(totalSleep / this.userSleepData.length);
+  // }
+  //
+  // calculateDailySleepQuality() {
+  //   let totalSleepQuality = this.userSleepData.reduce((total, current) => {
+  //     total += current.sleepQuality;
+  //     return total
+  //   }, 0)
+  //   return Math.round(totalSleepQuality / this.userSleepData.length);
+  // }
 
   getDailySleep(givenDate) {
     let dailySleep = this.userSleepData.find(data => {
@@ -68,6 +68,8 @@ class Sleep extends FitnessData {
     })
     }
   }
+
+// TODO: Need to bring back function calculateWeekSleep(), and calculateWeekSleepQuality()
 
 /*
 TODO: All methods below likely need to be moved to UserRepo class:

@@ -20,6 +20,16 @@ class FitnessData {
     return sorted.slice((startDate - 6), (endDate + 1));
   }
 
+  // TODO: change calculateAverageOunces &
+  // calculateWeekSleep(), and calculateWeekSleepQuality() calls
+  // to calculateAverageDaily
+  calculateAverageDaily(dataset) {
+    let totalOunces = this[dataset].reduce((total, data) => {
+      total += data.numOunces
+      return total
+    }, 0)
+    return Math.round(totalOunces / this[dataset].length)
+  }
 
 }
 
