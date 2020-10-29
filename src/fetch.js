@@ -25,6 +25,22 @@ let requests = {
       .then(response => response.json())
       .then(data => data.sleepData)
       .catch(error => console.log(error))
+  },
+  
+  postActivityData() {
+    return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+      method: 'POST',
+      headers: {
+       'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "userID": inputId,
+        "date": inputDate,
+        "numSteps": inputSteps, 
+        "minutesActive": inputMinutesActive,
+        "flightsOfStairs": inputStairs
+     })
+   })
   }
 }
 
