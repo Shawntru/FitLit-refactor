@@ -4,10 +4,12 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
+// import userData from './data/users';
 import hydrationData from './data/hydration';
 import sleepData from './data/sleep';
 import activityData from './data/activity';
+// import fetchData from './fetch';
+
 
 import User from './User';
 import Activity from './Activity';
@@ -48,9 +50,32 @@ const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
 
+let userData = fetchUserData();
+
+// fetchData.fetchUserData();
+function fetchUserData() {
+  // let userDataReturn;
+  return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
+    .then(response => response.json())
+    .then(data => userData = data.userData)
+    .catch(error => console.log(error))
+  //   console.log(userDataReturn)
+  // return userDataReturn;
+}
+
+Promise.all([userData]) //, hydraData, sleepData, actData])
+  .then(value => {
+    console.log(value)
+    userData = value[0]
+    // hydraData = value[1];
+    // sleepData = value[2];
+    // actData = value[3];
+    startApp();
+  })
+
 function startApp() {
-  const userList = [];
-  makeUsers(userList);
+  // const userList = [];
+  let userList = makeUsers(userData);
   const userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
   const sleepRepo = new Sleep(sleepData);
@@ -68,12 +93,17 @@ function startApp() {
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
-function makeUsers(array) {
-  userData.forEach((dataItem) => {
-    const user = new User(dataItem);
-    array.push(user);
+function makeUsers(usersData) {
+  return usersData.map((dataItem) => {
+    return new User(dataItem);
   });
 }
+// function makeUsers(array) {
+//   userData.forEach((dataItem) => {
+//     const user = new User(dataItem);
+//     array.push(user);
+//   });
+// }
 
 function pickUser() {
   return Math.floor(Math.random() * 50);
@@ -180,4 +210,6 @@ function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
 
-startApp();
+// startApp();
+// export default startApp;
+
