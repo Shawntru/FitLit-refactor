@@ -4,10 +4,6 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-// import userData from './data/users';
-import hydrationData from './data/hydration';
-import sleepData from './data/sleep';
-import activityData from './data/activity';
 import requests from './fetch';
 
 import User from './User';
@@ -50,32 +46,25 @@ const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
 
 const receivedUserData = requests.fetchUserData();
+const receivedActivityData = requests.fetchActivityData();
+const receivedHydrationData = requests.fetchHydrationData();
+const receivedSleepData = requests.fetchSleepData();
 
 let userData;
+let activityData;
+let hydrationData;
+let sleepData;
 
-// fetchData.fetchUserData();
-// function fetchUserData() {
-//   // let userDataReturn;
-//   return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
-//     .then(response => response.json())
-//     .then(data => userData = data.userData)
-//     .catch(error => console.log(error))
-//   //   console.log(userDataReturn)
-//   // return userDataReturn;
-// }
-
-Promise.all([receivedUserData]) //, hydraData, sleepData, actData])
+Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
   .then(value => {
-    console.log(value)
     userData = value[0]
-    // hydraData = value[1];
-    // sleepData = value[2];
-    // actData = value[3];
+    activityData = value[1];
+    hydrationData = value[2];
+    sleepData = value[3];
     startApp();
   })
 
 function startApp() {
-  // const userList = [];
   let userList = makeUsers(userData);
   const userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
@@ -99,12 +88,6 @@ function makeUsers(usersData) {
     return new User(dataItem);
   });
 }
-// function makeUsers(array) {
-//   userData.forEach((dataItem) => {
-//     const user = new User(dataItem);
-//     array.push(user);
-//   });
-// }
 
 function pickUser() {
   return Math.floor(Math.random() * 50);
