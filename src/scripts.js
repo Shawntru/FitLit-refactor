@@ -4,10 +4,7 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
-import hydrationData from './data/hydration';
-import sleepData from './data/sleep';
-import activityData from './data/activity';
+import requests from './fetch';
 
 import User from './User';
 import Activity from './Activity';
@@ -48,9 +45,27 @@ const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
 
+const receivedUserData = requests.fetchUserData();
+const receivedActivityData = requests.fetchActivityData();
+const receivedHydrationData = requests.fetchHydrationData();
+const receivedSleepData = requests.fetchSleepData();
+
+let userData;
+let activityData;
+let hydrationData;
+let sleepData;
+
+Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
+  .then(value => {
+    userData = value[0]
+    activityData = value[1];
+    hydrationData = value[2];
+    sleepData = value[3];
+    startApp();
+  })
+
 function startApp() {
-  const userList = [];
-  makeUsers(userList);
+  let userList = makeUsers(userData);
   const userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
   const sleepRepo = new Sleep(sleepData);
@@ -68,10 +83,9 @@ function startApp() {
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
-function makeUsers(array) {
-  userData.forEach((dataItem) => {
-    const user = new User(dataItem);
-    array.push(user);
+function makeUsers(usersData) {
+  return usersData.map((dataItem) => {
+    return new User(dataItem);
   });
 }
 
@@ -180,4 +194,5 @@ function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
 
-startApp();
+// startApp();
+
