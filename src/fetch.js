@@ -19,7 +19,15 @@
   //     // actData = value[3];             
   //     startApp();
   //   })
-
 // }
+let requests = {
+  fetchUserData() {
+    return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
+      .then(response => response.json())
+      .then(data => data.userData)
+      .catch(error => console.log(error))
+  }
 
-// export default fetchData;
+}
+
+export default requests;

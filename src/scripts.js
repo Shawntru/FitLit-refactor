@@ -8,8 +8,7 @@ import './images/The Rock.jpg';
 import hydrationData from './data/hydration';
 import sleepData from './data/sleep';
 import activityData from './data/activity';
-// import fetchData from './fetch';
-
+import requests from './fetch';
 
 import User from './User';
 import Activity from './Activity';
@@ -50,20 +49,22 @@ const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
 
-let userData = fetchUserData();
+const receivedUserData = requests.fetchUserData();
+
+let userData;
 
 // fetchData.fetchUserData();
-function fetchUserData() {
-  // let userDataReturn;
-  return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
-    .then(response => response.json())
-    .then(data => userData = data.userData)
-    .catch(error => console.log(error))
-  //   console.log(userDataReturn)
-  // return userDataReturn;
-}
+// function fetchUserData() {
+//   // let userDataReturn;
+//   return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
+//     .then(response => response.json())
+//     .then(data => userData = data.userData)
+//     .catch(error => console.log(error))
+//   //   console.log(userDataReturn)
+//   // return userDataReturn;
+// }
 
-Promise.all([userData]) //, hydraData, sleepData, actData])
+Promise.all([receivedUserData]) //, hydraData, sleepData, actData])
   .then(value => {
     console.log(value)
     userData = value[0]
@@ -211,5 +212,4 @@ function makeStepStreakHTML(id, activityInfo, userStorage, method) {
 }
 
 // startApp();
-// export default startApp;
 
