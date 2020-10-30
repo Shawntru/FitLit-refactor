@@ -3,9 +3,9 @@ $h1-font-color: #ffffff;
 $body-font-family: 'Open Sans';
 $sidebar-color: #9A9DAB;
 
-$hydration-background: #5BC8AC;
-$sleep-background: #EC96A4;
-$activity-background: #DFE166;
+$hydration-background: #56B4E9;
+$sleep-background: #009E73;
+$activity-background: #F0E442;
 
 $document-font-family: sans-serif;
 
@@ -173,17 +173,17 @@ h1 {
   flex-direction: column;
   justify-content: flex-start;
   width: 50%;
-  background-color: #5BC8AC;
+  background-color: $hydration-background;
 }
 
 .card-history-sleep {
   @extend .card-history-hydration;
-  background-color: #EC96A4;
+  background-color: $sleep-background;
 }
 
 .card-history-activity {
   @extend .card-history-hydration;
-  background-color: #DFE166;
+  background-color: $activity-background;
   height: 93%;
   overflow: scroll;
 }
