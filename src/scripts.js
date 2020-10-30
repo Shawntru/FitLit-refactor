@@ -49,11 +49,14 @@ const receivedUserData = requests.fetchUserData();
 const receivedActivityData = requests.fetchActivityData();
 const receivedHydrationData = requests.fetchHydrationData();
 const receivedSleepData = requests.fetchSleepData();
+// const postedActivityData = requests.postActivityData();
 
 let userData;
 let activityData;
 let hydrationData;
 let sleepData;
+// let newActivityInfo;
+
 
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
   .then(value => {
@@ -63,6 +66,9 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
     sleepData = value[3];
     startApp();
   })
+  
+
+
 
 function startApp() {
   let userList = makeUsers(userData);
@@ -81,7 +87,10 @@ function startApp() {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+
 }
+
+
 
 function makeUsers(usersData) {
   return usersData.map((dataItem) => {
@@ -96,6 +105,28 @@ function pickUser() {
 function getUserById(id, listRepo) {
   return listRepo.getDataFromID(id);
 }
+
+
+function postActivityData(inputId, inputDate, inputSteps, inputMinutesActive, inputStairs) {
+  return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+    method: 'POST',
+    headers: {
+     'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "userID": inputId,
+      "date": inputDate,
+      "numSteps": inputSteps, 
+      "minutesActive": inputMinutesActive,
+      "flightsOfStairs": inputStairs
+   })
+ })
+ .then(response => response.json())
+ .then(data => console.log(data))
+ .catch(error => console.log(error))
+}
+
+postActivityData(1, "2020/10/29", 56, 85, 5)
 
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
@@ -193,6 +224,8 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
+
+
 
 // startApp();
 
