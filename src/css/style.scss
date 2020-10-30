@@ -1,17 +1,28 @@
+$background-color: #4d4e4f;
+$h1-font-color: #ffffff;
+$body-font-family: 'Open Sans';
+$sidebar-color: #9A9DAB;
+
+$hydration-background: #5BC8AC;
+$sleep-background: #EC96A4;
+$activity-background: #DFE166;
+
+$document-font-family: sans-serif;
+
 * {
   margin: 0;
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: $body-font-family;
   margin: 0;
-  background-color: #4d4e4f;
+  background-color: $background-color;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #ffffff;
+  color: $h1-font-color;
   height: 80px;
   padding-top: 10px;
 }
@@ -30,7 +41,7 @@ h1 {
 }
 
 .body-sidebar-sidebarContainer {
-  background-color: #9A9DAB;
+  background-color: $sidebar-color;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -44,7 +55,7 @@ h1 {
 }
 
 .sidebar-header-userInfo {
-  font-family: sans-serif;
+  font-family: $document-font-family;
   font-weight: bold;
   font-size: 1.2em;
   margin: .5em .5em .5em .5em;
@@ -91,30 +102,35 @@ h1 {
 .main-column-hydration {
   display: flex;
   flex-direction: row;
-  height: 25%
+  height: 25%;
 }
 
 .main-column-activity {
-  display: flex;
-  flex-direction: row;
-  height: 50%
+  @extend .main-column-hydration;
+  height: 50%;
 }
 
 .main-column-sleep {
-  display: flex;
-  flex-direction: row;
-  height: 35%
+  @extend .main-column-hydration;
+  height: 35%;
 }
 
+
 .infoContainer-cardContainer-card-horizontal {
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   background-color: white;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 1%;
-  justify-content: space-between;
+}
+
+.infoContainer-cardContainer-card-vertical {
+  @extend .infoContainer-cardContainer-card-horizontal;
+  flex-direction: row;
+  overflow: scroll;
 }
 
 .horizontalCard-activity-container {
@@ -125,89 +141,49 @@ h1 {
   overflow: scroll;
 }
 
-.infoContainer-cardContainer-card-vertical {
-  width: 100%;
-  background-color: white;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  margin: 1%;
-  overflow: scroll;
-}
-
 .card-today-hydration {
   text-align: center;
-  background-color: #5BC8AC;
   height: auto;
   font-size: 1.5em;
   margin: .5em;
-  font-family: sans-serif;
+  font-family: $document-font-family;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 80%;
+  background-color: $hydration-background;
 }
 
 .card-today-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  @extend .card-today-hydration;
+  background-color: $sleep-background;
 }
 
 .card-today-activity {
-  text-align: center;
-  background-color: #DFE166;
-  height: auto;
-  font-size: 1.5em;
-  margin: .3em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 40%;
+  @extend .card-today-hydration;
+  background-color: $activity-background;
 }
 
 .card-history-hydration {
   text-align: center;
-  background-color: #5BC8AC;
   font-size: 1em;
   margin: .5em;
-  font-family: sans-serif;
+  font-family: $document-font-family;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   width: 50%;
+  background-color: #5BC8AC;
 }
 
 .card-history-sleep {
-  text-align: center;
+  @extend .card-history-hydration;
   background-color: #EC96A4;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
 }
 
 .card-history-activity {
-  text-align: center;
+  @extend .card-history-hydration;
   background-color: #DFE166;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
   height: 93%;
   overflow: scroll;
 }
@@ -219,15 +195,7 @@ h1 {
   font-kerning: normal;
 }
 
-.historicalWeek {
-  text-align: center;
-  font-size: 1em;
-  font-weight: bolder;
-  margin: .5em;
-  color: black;
-}
-
-.thisWeek {
+.thisWeek, .historicalWeek {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
@@ -237,14 +205,14 @@ h1 {
 
 .card-vertical-list {
   list-style-type: none;
+  font-size: 1em;
   font-weight: lighter;
   font-style: italic;
   padding-left: 0;
-  font-size: 1em;
 }
 
 .historical-list-listItem {
   padding: .3em;
   font-weight: bold;
-  font-family: sans-serif;
+  font-family: $document-font-family;
 }
