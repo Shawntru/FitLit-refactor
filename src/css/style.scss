@@ -1,3 +1,7 @@
+$background-color: #4d4e4f;
+$sidebar-color: #9A9DAB;
+$h1-font-color: #ffffff;
+
 * {
   margin: 0;
 }
@@ -5,13 +9,13 @@
 body {
   font-family: 'Open Sans';
   margin: 0;
-  background-color: #4d4e4f;
+  background-color: $background-color;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #ffffff;
+  color: $h1-font-color;
   height: 80px;
   padding-top: 10px;
 }
@@ -30,7 +34,7 @@ h1 {
 }
 
 .body-sidebar-sidebarContainer {
-  background-color: #9A9DAB;
+  background-color: $sidebar-color;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -88,33 +92,62 @@ h1 {
   overflow: scroll;
 }
 
-.main-column-hydration {
+.main-column {
   display: flex;
   flex-direction: row;
-  height: 25%
+}
+
+.main-column-hydration {
+  @extend .main-column;
+  height: 25%;
+  // display: flex;
+  // flex-direction: row;
 }
 
 .main-column-activity {
-  display: flex;
-  flex-direction: row;
-  height: 50%
+  @extend .main-column;
+  height: 50%;
+  // display: flex;
+  // flex-direction: row;
 }
 
 .main-column-sleep {
-  display: flex;
-  flex-direction: row;
-  height: 35%
+  @extend .main-column;
+  height: 35%;
+  // display: flex;
+  // flex-direction: row;
 }
 
-.infoContainer-cardContainer-card-horizontal {
+.infoContainer-cardContainer-card {
   width: 100%;
   background-color: white;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 1%;
+}
+
+.infoContainer-cardContainer-card-horizontal {
+  @extend .infoContainer-cardContainer-card;
+  align-items: center;
   justify-content: space-between;
+  // width: 100%;
+  // background-color: white;
+  // border: 1px solid black;
+  // display: flex;
+  // flex-direction: column;
+  // margin: 1%;
+}
+
+.infoContainer-cardContainer-card-vertical {
+  @extend .infoContainer-cardContainer-card;
+  flex-direction: row;
+  overflow: scroll;
+  // width: 100%;
+  // background-color: white;
+  // border: 1px solid black;
+  // display: flex;
+  // margin: 1%;
 }
 
 .horizontalCard-activity-container {
@@ -125,91 +158,111 @@ h1 {
   overflow: scroll;
 }
 
-.infoContainer-cardContainer-card-vertical {
-  width: 100%;
-  background-color: white;
-  border: 1px solid black;
+
+.card-today {
+  text-align: center;
+  height: auto;
+  font-size: 1.5em;
+  margin: .5em;
+  font-family: sans-serif;
   display: flex;
-  flex-direction: row;
-  margin: 1%;
-  overflow: scroll;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
 }
 
 .card-today-hydration {
-  text-align: center;
+  @extend .card-today;
   background-color: #5BC8AC;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  // text-align: center;
+  // height: auto;
+  // font-size: 1.5em;
+  // margin: .5em;
+  // font-family: sans-serif;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // width: 80%;
 }
 
 .card-today-sleep {
-  text-align: center;
+  @extend .card-today;
   background-color: #EC96A4;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  // text-align: center;
+  // height: auto;
+  // font-size: 1.5em;
+  // margin: .5em;
+  // font-family: sans-serif;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // width: 80%;
 }
 
 .card-today-activity {
-  text-align: center;
+  @extend .card-today;
   background-color: #DFE166;
-  height: auto;
-  font-size: 1.5em;
-  margin: .3em;
+  // text-align: center;
+  // height: auto;
+  // font-size: 1.5em;
+  // margin: .3em;
+  // font-family: sans-serif;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // width: 40%;
+}
+
+.card-history {
+  text-align: center;
+  font-size: 1em;
+  margin: .5em;
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 40%;
+  justify-content: flex-start;
+  width: 50%;
 }
 
 .card-history-hydration {
-  text-align: center;
+  @extend .card-history;
   background-color: #5BC8AC;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  // text-align: center;
+  // font-size: 1em;
+  // margin: .5em;
+  // font-family: sans-serif;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  // width: 50%;
 }
 
 .card-history-sleep {
-  text-align: center;
+  @extend .card-history;
   background-color: #EC96A4;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  // text-align: center;
+  // font-size: 1em;
+  // margin: .5em;
+  // font-family: sans-serif;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  // width: 50%;
 }
 
 .card-history-activity {
-  text-align: center;
+  @extend .card-history;
   background-color: #DFE166;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
   height: 93%;
   overflow: scroll;
+  // text-align: center;
+  // font-size: 1em;
+  // margin: .5em;
+  // font-family: sans-serif;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  // width: 50%;
 }
 
 .number {
@@ -219,7 +272,7 @@ h1 {
   font-kerning: normal;
 }
 
-.historicalWeek {
+.thisWeek, .historicalWeek {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
@@ -227,20 +280,20 @@ h1 {
   color: black;
 }
 
-.thisWeek {
-  text-align: center;
-  font-size: 1em;
-  font-weight: bolder;
-  margin: .5em;
-  color: black;
-}
+// .historicalWeek {
+//   text-align: center;
+//   font-size: 1em;
+//   font-weight: bolder;
+//   margin: .5em;
+//   color: black;
+// }
 
 .card-vertical-list {
   list-style-type: none;
+  font-size: 1em;
   font-weight: lighter;
   font-style: italic;
   padding-left: 0;
-  font-size: 1em;
 }
 
 .historical-list-listItem {
