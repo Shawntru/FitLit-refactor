@@ -107,27 +107,6 @@ function getUserById(id, listRepo) {
 }
 
 
-function postActivityData(inputId, inputDate, inputSteps, inputMinutesActive, inputStairs) {
-  return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
-    method: 'POST',
-    headers: {
-     'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "userID": inputId,
-      "date": inputDate,
-      "numSteps": inputSteps, 
-      "minutesActive": inputMinutesActive,
-      "flightsOfStairs": inputStairs
-   })
- })
- .then(response => response.json())
- .then(data => console.log(data))
- .catch(error => console.log(error))
-}
-
-postActivityData(1, "2020/10/29", 56, 85, 5)
-
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
