@@ -27,21 +27,22 @@ let requests = {
       .catch(error => console.log(error))
   },
   
-  postActivityData() {
-    return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
-      method: 'POST',
-      headers: {
-       'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "userID": inputId,
-        "date": inputDate,
-        "numSteps": inputSteps, 
-        "minutesActive": inputMinutesActive,
-        "flightsOfStairs": inputStairs
-     })
-   })
-  }
+  // postActivityData(inputId, inputDate, inputSteps, inputMinutesActive, inputStairs) {
+  //   return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+  //     method: 'POST',
+  //     headers: {
+  //      'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       "userID": inputId,
+  //       "date": inputDate,
+  //       "numSteps": inputSteps, 
+  //       "minutesActive": inputMinutesActive,
+  //       "flightsOfStairs": inputStairs
+  //    })
+  //  })
+  
+ 
 }
 
 export default requests;
