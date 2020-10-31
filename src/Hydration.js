@@ -12,7 +12,8 @@ class Hydration extends UserData {
   }
 
   calculateDailyOunces(id, date) {
-    const findOuncesByDate = this.hydrationData.find((data) => id === data.userID && date === data.date);
+    const findOuncesByDate = this.hydrationData
+      .find((data) => id === data.userID && date === data.date);
     return findOuncesByDate.numOunces;
   }
 
@@ -21,7 +22,9 @@ class Hydration extends UserData {
   }
 
   calculateRandomWeekOunces(date, id, userRepo) {
-    return userRepo.getWeekFromDate(date, id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
+    return userRepo
+      .getWeekFromDate(date, id, this.hydrationData)
+      .map((data) => `${data.date}: ${data.numOunces}`);
   }
 }
 
