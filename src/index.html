@@ -46,7 +46,7 @@
           <div class="card-today-hydration">
             <p id="hydrationToday"></p>
           </div>
-          <input type="text" class="new-hydration-input" placeholder="Number of ounces">
+          <input type="text" class="new-hydration-input" placeholder="Number of ounces" onkeyup="value=value.replace(/[^\d]/g,'')">
           <button class="new-hydration-button" >Submit todays hydration info</button>
           <div class="card-today-hydration">
             <p id="hydrationAverage"></p>
@@ -88,9 +88,9 @@
             </div>
           </section>
           <section class="horizontalCard-activity-container">
-            <input type="text" class="new-activity-input-steps" placeholder="Number of steps">
-            <input type="text" class="new-activity-input-minutes" placeholder="Minutes Active">
-            <input type="text" class="new-activity-input-stairs" placeholder="Number of stairs">
+            <input type="text" class="new-activity-input-steps" placeholder="Number of steps" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <input type="text" class="new-activity-input-minutes" placeholder="Minutes Active" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <input type="text" class="new-activity-input-stairs" placeholder="Number of stairs" onkeyup="value=value.replace(/[^\d]/g,'')">
             <button class="new-activity-button" >Submit todays activity info</button>
             <div class="card-today-activity">
               <p id="userMinutesToday"></p>
@@ -142,8 +142,8 @@
           </div>
           <div class="card-today-sleep">
             <p id="sleepQualityToday"></p>
-            <input type="text" class="new-hours-slept-input" placeholder="Number of Hours Slept">
-            <input type="text" class="new-sleep-quality-input" placeholder="New sleep Quality">
+            <input type="text" class="new-hours-slept-input" placeholder="Number of Hours Slept" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <input type="text" class="new-sleep-quality-input" placeholder="New sleep Quality" onkeyup="value=value.replace(/[^\d]/g,'')">
             <button class="new-sleep-button">Submit todays sleep info</button>
           </div>
           <div class="card-today-sleep">
