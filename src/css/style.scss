@@ -1,13 +1,5 @@
-$background-color: #4d4e4f;
-$h1-font-color: #ffffff;
-$body-font-family: 'Open Sans';
-$sidebar-color: lightgrey;
-
-$hydration-background: #56B4E9;
-$sleep-background: #009E73;
-$activity-background: #F0E442;
-
-$document-font-family: sans-serif;
+@import 'main-content';
+@import 'variables';
 
 * {
   margin: 0;
@@ -98,23 +90,6 @@ h1 {
   flex-direction: column;
   overflow: scroll;
 }
-
-.main-column-hydration {
-  display: flex;
-  flex-direction: row;
-  height: 25%;
-}
-
-.main-column-activity {
-  @extend .main-column-hydration;
-  height: 50%;
-}
-
-.main-column-sleep {
-  @extend .main-column-hydration;
-  height: 35%;
-}
-
 
 .infoContainer-cardContainer-card-horizontal {
   align-items: center;
