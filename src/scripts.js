@@ -44,7 +44,6 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
-// const newHydrationButton = document.querySelector('.new-hydration-button');
 const newHydrationInput = document.querySelector('.new-hydration-input');
 const newStepsInput = document.querySelector('.new-activity-input-steps');
 const newActiveMinutesInput = document.querySelector('.new-activity-input-minutes');
@@ -57,13 +56,13 @@ const receivedUserData = requests.fetchUserData();
 const receivedActivityData = requests.fetchActivityData();
 const receivedHydrationData = requests.fetchHydrationData();
 const receivedSleepData = requests.fetchSleepData();
-// const postedActivityData = requests.postActivityData();
+
 let userNowId;
 let userData;
 let activityData;
 let hydrationData;
 let sleepData;
-// let newActivityInfo;
+
 
 
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
@@ -72,19 +71,25 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
     activityData = value[1];
     hydrationData = value[2];
     sleepData = value[3];
-    startApp();
+    startApp(0);
   })
   
 
 
 
-function startApp() {
+function startApp(userIdCurrently) {
+
   let userList = makeUsers(userData);
   const userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
   const sleepRepo = new Sleep(sleepData);
   const activityRepo = new Activity(activityData);
-  userNowId = pickUser();
+  if (userIdCurrently !== 0) {
+    userNowId = userIdCurrently
+  } else if(userIdCurrently === 0){
+    userNowId = pickUser();
+  }
+  // userNowId = pickUser();
   const userNow = getUserById(userNowId, userRepo);
   const today = makeToday(userRepo, userNowId, hydrationData);
   const randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
@@ -95,6 +100,7 @@ function startApp() {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+  console.log(randomHistory)
 }
 
 
@@ -137,16 +143,28 @@ function getTodaysDate() {
 function submitNewHydration(userNowId) {
   let date = getTodaysDate()
   requests.postHydrationData(userNowId, date, newHydrationInput.value)
+  const currentHydrationRepo = new Hydration(hydrationData);
+  let newRandomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
+  addHydrationInfo(userNowId, currentHydrationRepo, date, userRepo, newRandomHistory);
+  // newHydrationInput.value = ''; 
 }
 
 function submitNewActivity(userNowId) {
   let date = getTodaysDate()
   requests.postActivityData(userNowId, date, newStepsInput.value, newActiveMinutesInput.value, newStairsInput.value)
+  // startApp(userNowId)
+  // newStepsInput.value = '';
+  // newActiveMinutesInput.value = '';
+  // newStairsInput.value = '';
 }
 
 function submitNewSleep(userNowId) {
   let date = getTodaysDate()
+  
   requests.postSleepData(userNowId, date, newHoursSlept.value, newSleepQuality.value)
+  // startApp(userNowId)
+  // newHoursSlept.value = '';
+  // newSleepQuality.value = '';
 }
 
 function addInfoToSidebar(user, userStorage) {
@@ -179,7 +197,8 @@ function makeRandomDate(userStorage, id, dataSet) {
 }
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
-  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
+  hydrationToday.innerHTML = '';
+  hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>` ;
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
