@@ -6,10 +6,6 @@ class UserRepo extends UserData{
     this.users = users;
   }
 
-  getDataFromID(id) {
-    return this.users.find((user) => id === user.id);
-  }
-
   calculateAverageStepGoal() {
     const totalStepGoal = this.users.reduce((sumSoFar, data) => sumSoFar += data.dailyStepGoal, 0);
     return totalStepGoal / this.users.length;

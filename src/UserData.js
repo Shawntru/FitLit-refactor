@@ -6,6 +6,12 @@ class UserData {
     this.users = users;
   }
 
+  //TODO: Refactor to add sad path testing for undefined data entries
+
+  getDataFromID(id) {
+    return this.users.find((user) => id === user.id);
+  }
+
   getDataFromUserID(id, dataSet) {
     return dataSet.filter((userData) => id === userData.userID);
   }

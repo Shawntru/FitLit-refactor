@@ -6,8 +6,6 @@ class Sleep extends UserData {
     this.sleepData = sleepData;
   }
 
-
-  //TODO: Add und check for return val
   calculateDailySleep(id, date) {
     const findSleepByDate = this.sleepData
       .find((data) => id === data.userID && date === data.date);
@@ -21,7 +19,7 @@ class Sleep extends UserData {
   }
 
   calculateWeekSleep(date, id, userRepo) {
-    return this.calculateWeekData(id, date, userRepo, 'sleepData', 'hoursSlept'); 
+    return this.calculateWeekData(id, date, userRepo, 'sleepData', 'hoursSlept');
   }
 
   calculateAllUserSleepQuality() {
