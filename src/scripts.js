@@ -173,19 +173,12 @@ function updatePageHydration (userNowId, todaysDate) {
 function submitNewActivity(userNowId) {
   let date = getTodaysDate()
   requests.postActivityData(userNowId, date, newStepsInput.value, newActiveMinutesInput.value, newStairsInput.value)
-  // startApp(userNowId)
-  // newStepsInput.value = '';
-  // newActiveMinutesInput.value = '';
-  // newStairsInput.value = '';
 }
 
 function submitNewSleep(userNowId) {
   let date = getTodaysDate()
   
   requests.postSleepData(userNowId, date, newHoursSlept.value, newSleepQuality.value)
-  // startApp(userNowId)
-  // newHoursSlept.value = '';
-  // newSleepQuality.value = '';
 }
 
 function addInfoToSidebar(user, userStorage) {
@@ -218,16 +211,8 @@ function makeRandomDate(userStorage, id, dataSet) {
 }
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
-  // hydrationToday.innerHTML = '';
-  // hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>` ;
-
-
-
   addDailyOuncesInfo(id, hydrationInfo, dateString);
-  // hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
-  
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
-  
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
 }
 
@@ -239,7 +224,6 @@ function addDailyOuncesInfo(id, hydrationInfo, dateString) {
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
   
 }
-
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
   return method.map((drinkData) => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
