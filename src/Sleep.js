@@ -16,8 +16,16 @@ class Sleep {
   }
 
   calculateDailySleep(id, date) {
+    console.log('sleepData', this.sleepData)
     const findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepByDate.hoursSlept;
+    // this.sleepData.forEach(data => {
+    //   typeof data.hoursSlept === "number" ? data.hoursSlept : 0
+    // })
+    console.log(findSleepByDate)
+    // typeof findSleepByDate.hoursSlept === "number" ? findSleepByDate.hoursSlept : 0
+    return this.sleepData.forEach(data => {
+        typeof data.hoursSlept === "number" ? data.hoursSlept : 0
+      });
   }
 
   calculateDailySleepQuality(id, date) {

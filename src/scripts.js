@@ -50,6 +50,7 @@ const newActiveMinutesInput = document.querySelector('.new-activity-input-minute
 const newStairsInput = document.querySelector('.new-activity-input-stairs');
 const newHoursSlept = document.querySelector('.new-hours-slept-input');
 const newSleepQuality = document.querySelector('.new-sleep-quality-input');
+const updateHydrationButton = document.querySelector(".new-hydration-button")
 window.addEventListener('click', windowOnClick);
 
 const receivedUserData = requests.fetchUserData();
@@ -100,6 +101,7 @@ function startApp(userIdCurrently) {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+  updateHydrationButton.disabled = true;
 }
 
 
@@ -120,6 +122,7 @@ function getUserById(id, listRepo) {
 
 function windowOnClick(event) {
   if (event.target.classList.contains("new-hydration-button")) {
+    
     submitNewHydration(userNowId);
   }
   if (event.target.classList.contains("new-activity-button")) {
@@ -129,7 +132,7 @@ function windowOnClick(event) {
     submitNewSleep(userNowId);
   }
 }
-
+document.getElementById("new-hydration-input").addEventListener('onkeyup', checkInput)
 
 function getTodaysDate() {
   var today = new Date();
@@ -139,13 +142,27 @@ function getTodaysDate() {
   return today = yyyy + '/' + mm + '/' + dd;
 }
 
+
+function checkInput() {
+  if(newHydrationInput.value.length === 0) {
+    updateHydrationButton.disabled = true;
+  } else if(newHydrationInput.value.length !== 0){
+    updateHydrationButton.disabled = false;
+  }
+}
+
 function submitNewHydration(userNowId) {
+  
   let todaysDate = getTodaysDate()
+  if (newHydrationInput.value > 128) {
+    newHydrationInput.value = 128
+  }
   let postedHydration = requests.postHydrationData(userNowId, todaysDate, newHydrationInput.value)
   Promise.all([postedHydration])
     .then(value => {
       updatePageHydration (userNowId, todaysDate)
     })
+  updateHydrationButton.disabled = true;
   // let newRecievedHydration = requests.fetchHydrationData()
   // Promise.all([newRecievedHydration])
   //   .then(value => {
@@ -222,7 +239,7 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
   console.log('data', hydrationInfo)
   addDailyOuncesInfo(id, hydrationInfo, dateString);
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
+  // hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
   
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
   
@@ -230,11 +247,12 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 }
 
 function addDailyOuncesInfo(id, hydrationInfo, dateString) {
-  console.log('first', id)
-  console.log('second', hydrationInfo)
-
-  // hydrationToday.innerHTML = '';
-  hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>` ;
+  hydrationToday.innerHTML = '';
+  typeof hydrationInfo.numOunces === "number" ? hydrationInfo.numOunces : 0
+  hydrationToday.insertAdjacentHTML('afterBegin',`<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
+  hydrationAverage.innerHTML = '';
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
+  
 }
 
 
@@ -243,6 +261,7 @@ function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
 }
 
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
+  typeof sleepInfo.hoursSlept === "number" ? sleepInfo.hoursSlept : 0
   sleepToday.insertAdjacentHTML('afterBegin', `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
   sleepQualityToday.insertAdjacentHTML('afterBegin', `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
   avUserSleepQuality.insertAdjacentHTML('afterBegin', `<p>The average user's sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calculateAllUserSleepQuality() * 100) / 100}</span></p><p>out of 5.</p>`);
