@@ -101,7 +101,6 @@ function startApp(userIdCurrently) {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
-  updateHydrationButton.disabled = true;
 }
 
 
@@ -132,7 +131,6 @@ function windowOnClick(event) {
     submitNewSleep(userNowId);
   }
 }
-document.getElementById("new-hydration-input").addEventListener('onkeyup', checkInput)
 
 function getTodaysDate() {
   var today = new Date();
@@ -143,45 +141,32 @@ function getTodaysDate() {
 }
 
 
-function checkInput() {
-  if(newHydrationInput.value.length === 0) {
-    updateHydrationButton.disabled = true;
-  } else if(newHydrationInput.value.length !== 0){
-    updateHydrationButton.disabled = false;
-  }
-}
-
 function submitNewHydration(userNowId) {
-  
   let todaysDate = getTodaysDate()
-  if (newHydrationInput.value > 128) {
-    newHydrationInput.value = 128
+  let newHydrationValue = newHydrationInput.value
+  if (!newHydrationValue) {
+    return alert("Please enter a value")
+  } else if (newHydrationValue > 128) {
+    newHydrationValue = 128
   }
-  let postedHydration = requests.postHydrationData(userNowId, todaysDate, newHydrationInput.value)
+  let postedHydration = requests.postHydrationData(userNowId, todaysDate, newHydrationValue)
   Promise.all([postedHydration])
     .then(value => {
-      updatePageHydration (userNowId, todaysDate)
-    })
+      updatePageHydration (userNowId, todaysDate) 
+  });
   updateHydrationButton.disabled = true;
-  // let newRecievedHydration = requests.fetchHydrationData()
-  // Promise.all([newRecievedHydration])
-  //   .then(value => {
-  //     hydrationData = value[0];
-  //     const currentHydrationRepo = new Hydration(hydrationData);
-  //     addDailyOuncesInfo(userNowId, currentHydrationRepo, date);
-  //   })
-  
-  // newHydrationInput.value = ''; 
 }
 
+
 function updatePageHydration (userNowId, todaysDate) {
-  // let date = getTodaysDate()
   let newRecievedHydration = requests.fetchHydrationData()
   Promise.all([newRecievedHydration])
     .then(value => {
       hydrationData = value[0];
-      const currentHydrationRepo = new Hydration(hydrationData);
-      addDailyOuncesInfo(userNowId, currentHydrationRepo, todaysDate);
+      // let hydrationElementsToClear = q
+      hydrationToday.innerHTML = '';
+      startApp(userNowId)
+      // addDailyOuncesInfo(userNowId, currentHydrationRepo, todaysDate);
     })
 }
 
@@ -235,9 +220,9 @@ function makeRandomDate(userStorage, id, dataSet) {
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   // hydrationToday.innerHTML = '';
   // hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>` ;
-  console.log('id', id)
 
-  console.log('data', hydrationInfo)
+
+
   addDailyOuncesInfo(id, hydrationInfo, dateString);
   // hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
   
