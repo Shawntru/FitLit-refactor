@@ -1,0 +1,15 @@
+.main-column-hydration {
+  display: flex;
+  flex-direction: row;
+  height: 25%;
+}
+
+.main-column-activity {
+  @extend .main-column-hydration;
+  height: 50%;
+}
+
+.main-column-sleep {
+  @extend .main-column-hydration;
+  height: 35%;
+}
