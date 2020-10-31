@@ -1,58 +1,75 @@
-class Activity {
+import UserData from './UserData';
+
+class Activity extends UserData {
   constructor(activityData) {
+    super();
     this.activityData = activityData;
   }
 
   getMilesFromStepsByDate(id, date, userRepo) {
-    const userStepsByDate = this.activityData.find((data) => id === data.userID && date === data.date);
-    return parseFloat(((userStepsByDate.numSteps * userRepo.strideLength) / 5280).toFixed(1));
+    const userStepsByDate = this.activityData
+      .find((data) => id === data.userID && date === data.date);
+    return parseFloat(((userStepsByDate.numSteps * userRepo.strideLength) / 5280)
+      .toFixed(1));
   }
 
   getActiveMinutesByDate(id, date) {
-    const userActivityByDate = this.activityData.find((data) => id === data.userID && date === data.date);
+    const userActivityByDate = this.activityData
+      .find((data) => id === data.userID && date === data.date);
     return userActivityByDate.minutesActive;
   }
 
   calculateActiveAverageForWeek(id, date, userRepo) {
-    return parseFloat((userRepo.getWeekFromDate(date, id, this.activityData).reduce((acc, elem) => acc += elem.minutesActive, 0) / 7).toFixed(1));
+    return parseFloat((userRepo.getWeekFromDate(date, id, this.activityData)
+      .reduce((acc, elem) => acc += elem.minutesActive, 0) / 7)
+      .toFixed(1));
   }
 
   accomplishStepGoal(id, date, userRepo) {
-    const userStepsByDate = this.activityData.find((data) => id === data.userID && date === data.date);
-    if (userStepsByDate.numSteps === userRepo.dailyStepGoal) {
-      return true;
-    }
-    return false;
+    const userStepsByDate = this.activityData
+      .find((data) => id === data.userID && date === data.date);
+    return (userStepsByDate.numSteps === userRepo.dailyStepGoal)
   }
 
   getDaysGoalExceeded(id, userRepo) {
-    return this.activityData.filter((data) => id === data.userID && data.numSteps > userRepo.dailyStepGoal).map((data) => data.date);
+    return this.activityData
+    .filter((data) => (id === data.userID) && (data.numSteps > userRepo.dailyStepGoal))
+    .map((data) => data.date);
   }
 
   getStairRecord(id) {
-    return this.activityData.filter((data) => id === data.userID).reduce((acc, elem) => ((elem.flightsOfStairs > acc) ? elem.flightsOfStairs : acc), 0);
+    return this.activityData
+    .filter((data) => id === data.userID)
+    .reduce((acc, elem) => ((elem.flightsOfStairs > acc) ? elem.flightsOfStairs : acc), 0);
   }
 
   getAllUserAverageForDay(date, userRepo, relevantData) {
     const selectedDayData = userRepo.chooseDayDataForAllUsers(this.activityData, date);
-    return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
+    return parseFloat((selectedDayData
+      .reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length)
+      .toFixed(1));
   }
 
   userDataForToday(id, date, userRepo, relevantData) {
     const userData = userRepo.getDataFromUserID(id, this.activityData);
-    return userData.find((data) => data.date === date)[relevantData];
+    return userData
+      .find((data) => data.date === date)[relevantData];
   }
 
   userDataForWeek(id, date, userRepo, releventData) {
-    return userRepo.getWeekFromDate(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
+    return userRepo.getWeekFromDate(date, id, this.activityData)
+      .map((data) => `${data.date}: ${data[releventData]}`);
   }
 
   // Friends
 
   getFriendsActivity(user, userRepo) {
     const data = this.activityData;
-    const userDatalist = user.friends.map((friend) => userRepo.getDataFromUserID(friend, data));
-    return userDatalist.reduce((arraySoFar, listItem) => arraySoFar.concat(listItem), []);
+    const userDatalist = user.friends
+      .map((friend) => userRepo.getDataFromUserID(friend, data));
+    return userDatalist
+      .reduce((arraySoFar, listItem) => arraySoFar
+      .concat(listItem), []);
   }
 
   getFriendsAverageStepsForWeek(user, date, userRepo) {

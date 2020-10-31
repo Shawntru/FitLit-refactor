@@ -1,5 +1,8 @@
-class Hydration {
+import UserData from './UserData';
+
+class Hydration extends UserData {
   constructor(hydrationData) {
+    super();
     this.hydrationData = hydrationData;
   }
 

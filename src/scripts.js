@@ -11,6 +11,7 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
+import UserData from './UserData';
 
 const sidebarName = document.getElementById('sidebarName');
 const stepGoalCard = document.getElementById('stepGoalCard');
@@ -193,6 +194,3 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
-
-// startApp();
-

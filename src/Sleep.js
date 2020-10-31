@@ -1,7 +1,8 @@
-import sleepData from './data/sleep';
+import UserData from './UserData';
 
-class Sleep {
+class Sleep extends UserData {
   constructor(sleepData) {
+    super();
     this.sleepData = sleepData;
   }
 
@@ -38,7 +39,7 @@ class Sleep {
       sumSoFar += dataItem.sleepQuality;
       return sumSoFar;
     }, 0);
-    return totalSleepQuality / sleepData.length;
+    return totalSleepQuality / this.sleepData.length;
   }
 
   determineBestSleepers(date, userRepo) {
