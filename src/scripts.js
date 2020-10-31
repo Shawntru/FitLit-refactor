@@ -44,13 +44,21 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
+// const newHydrationButton = document.querySelector('.new-hydration-button');
+const newHydrationInput = document.querySelector('.new-hydration-input');
+const newStepsInput = document.querySelector('.new-activity-input-steps');
+const newActiveMinutesInput = document.querySelector('.new-activity-input-minutes');
+const newStairsInput = document.querySelector('.new-activity-input-stairs');
+const newHoursSlept = document.querySelector('.new-hours-slept-input');
+const newSleepQuality = document.querySelector('.new-sleep-quality-input');
+window.addEventListener('click', windowOnClick);
 
 const receivedUserData = requests.fetchUserData();
 const receivedActivityData = requests.fetchActivityData();
 const receivedHydrationData = requests.fetchHydrationData();
 const receivedSleepData = requests.fetchSleepData();
 // const postedActivityData = requests.postActivityData();
-
+let userNowId;
 let userData;
 let activityData;
 let hydrationData;
@@ -76,7 +84,7 @@ function startApp() {
   const hydrationRepo = new Hydration(hydrationData);
   const sleepRepo = new Sleep(sleepData);
   const activityRepo = new Activity(activityData);
-  const userNowId = pickUser();
+  userNowId = pickUser();
   const userNow = getUserById(userNowId, userRepo);
   const today = makeToday(userRepo, userNowId, hydrationData);
   const randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
@@ -87,9 +95,7 @@ function startApp() {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
-
 }
-
 
 
 function makeUsers(usersData) {
@@ -106,6 +112,42 @@ function getUserById(id, listRepo) {
   return listRepo.getDataFromID(id);
 }
 
+
+function windowOnClick(event) {
+  if (event.target.classList.contains("new-hydration-button")) {
+    submitNewHydration(userNowId);
+  }
+  if (event.target.classList.contains("new-activity-button")) {
+    submitNewActivity(userNowId);
+  }
+  if (event.target.classList.contains("new-sleep-button")) {
+    submitNewSleep(userNowId);
+  }
+}
+
+
+function getTodaysDate() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  return today = yyyy + '/' + mm + '/' + dd;
+}
+
+function submitNewHydration(userNowId) {
+  let date = getTodaysDate()
+  requests.postHydrationData(userNowId, date, newHydrationInput.value)
+}
+
+function submitNewActivity(userNowId) {
+  let date = getTodaysDate()
+  requests.postActivityData(userNowId, date, newStepsInput.value, newActiveMinutesInput.value, newStairsInput.value)
+}
+
+function submitNewSleep(userNowId) {
+  let date = getTodaysDate()
+  requests.postSleepData(userNowId, date, newHoursSlept.value, newSleepQuality.value)
+}
 
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
@@ -203,6 +245,7 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
+;
 
 
 
