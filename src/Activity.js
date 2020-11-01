@@ -40,7 +40,13 @@ class Activity {
 
   userDataForToday(id, date, userRepo, relevantData) {
     const userData = userRepo.getDataFromUserID(id, this.activityData);
+    let property = userData.find((data) => data.date === date);
+    if (!property) {
+      userData[relevantData] = 'bad data';
+      return userData[relevantData]
+    } else {
     return userData.find((data) => data.date === date)[relevantData];
+    }
   }
 
   userDataForWeek(id, date, userRepo, releventData) {
@@ -91,7 +97,11 @@ class Activity {
   getWinnerId(user, date, userRepo) {
     const rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
     const keysList = rankedList.map((listItem) => Object.keys(listItem));
-    return parseInt(keysList[0].join(''));
+    if (!keysList[0]) {
+      return 0
+    } else {
+      return parseInt(keysList[0].join(''));
+    }
   }
 }
 

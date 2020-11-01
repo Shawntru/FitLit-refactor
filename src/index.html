@@ -71,6 +71,10 @@
       </section>
       <section class="main-column-activity">
         <section class="infoContainer-cardContainer-card-horizontal">
+          <input type="text" class="new-activity-input-steps" placeholder="Number of steps" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <input type="text" class="new-activity-input-minutes" placeholder="Minutes Active" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <input type="text" class="new-activity-input-stairs" placeholder="Number of stairs" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <button class="new-activity-button" >Submit todays activity info</button>
           <section class="horizontalCard-activity-container">
             <div class="card-today-activity">
               <p id="userStepsToday"></p>
@@ -88,10 +92,7 @@
             </div>
           </section>
           <section class="horizontalCard-activity-container">
-            <input type="text" class="new-activity-input-steps" placeholder="Number of steps" onkeyup="value=value.replace(/[^\d]/g,'')">
-            <input type="text" class="new-activity-input-minutes" placeholder="Minutes Active" onkeyup="value=value.replace(/[^\d]/g,'')">
-            <input type="text" class="new-activity-input-stairs" placeholder="Number of stairs" onkeyup="value=value.replace(/[^\d]/g,'')">
-            <button class="new-activity-button" >Submit todays activity info</button>
+            
             <div class="card-today-activity">
               <p id="userMinutesToday"></p>
             </div>

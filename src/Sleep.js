@@ -17,12 +17,22 @@ class Sleep {
 
   calculateDailySleep(id, date) {
     const findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepByDate.hoursSlept;
+    if (!findSleepByDate) {
+      return 0
+    } else {
+      return findSleepByDate.hoursSlept;
+    }
+    // return findSleepByDate.hoursSlept;
   }
 
   calculateDailySleepQuality(id, date) {
     const findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    return findSleepQualityByDate.sleepQuality;
+    if (!findSleepQualityByDate) {
+      return 0
+    } else {
+      return findSleepQualityByDate.sleepQuality;
+    }
+    // return findSleepQualityByDate.sleepQuality;
   }
 
   calculateWeekSleep(date, id, userRepo) {
