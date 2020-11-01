@@ -65,7 +65,6 @@ let hydrationData;
 let sleepData;
 let userRepo;
 
-
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
   .then(value => {
     userData = value[0]
@@ -76,19 +75,12 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
   })
 
 function startApp(userIdCurrently) {
-
   let userList = makeUsers(userData);
   userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
-  // console.log('hydraRepo', hydrationRepo)
   const sleepRepo = new Sleep(sleepData);
   const activityRepo = new Activity(activityData);
-  if (userIdCurrently !== 0) {
-    userNowId = userIdCurrently
-  } else if(userIdCurrently === 0){
-    userNowId = pickUser();
-  }
-  // userNowId = pickUser();
+  userNowId = pickUser();
   const userNow = getUserById(userNowId, userRepo);
   const today = makeToday(userRepo, userNowId, hydrationData);
   const randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
@@ -99,7 +91,6 @@ function startApp(userIdCurrently) {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
-  console.log(userNowId)
 }
 
 function makeUsers(usersData) {
@@ -138,16 +129,11 @@ function getTodaysDate() {
 
 function submitNewHydration(userNowId) {
   let todaysDate = getTodaysDate();
-  // let todaysDate = '2020/9/31'
-  /*
-  This is to remind me that if there are multiple entries on the same day, see not on line 163!!! 
-  */
   let postedHydration = requests.postHydrationData(userNowId, todaysDate, +newHydrationInput.value);
   Promise.all([postedHydration])
     .then( () => {
       updatePageHydration(userNowId, todaysDate);
   });
-
 }
 
 function updatePageHydration (userNowId, todaysDate) {
@@ -156,20 +142,14 @@ function updatePageHydration (userNowId, todaysDate) {
     .then(value => {
       hydrationData = value[0];
       const newHydration = new Hydration(hydrationData);
-      let hydrationElementsToClear = [hydrationToday] //, hydrationAverage, hydrationThisWeek, hydrationEarlierWeek]
+      let hydrationElementsToClear = [hydrationToday];
       clearHtml(hydrationElementsToClear);
-      // clearHtml();
-      // startApp(userNowId);
-      addDailyOuncesInfo(userNowId, newHydration, todaysDate)
-      /*
-      NOTE: These only work if there is are NOT multiple data for the same date for any given user 
-      */
+      addDailyOuncesInfo(userNowId, newHydration, todaysDate);
     })
 }
 
 function submitNewActivity(userNowId) {
   let todaysDate = getTodaysDate();
-  // let todaysDate = '2020/9/31'
   let postedActivity = requests.postActivityData(userNowId, todaysDate, +newStepsInput.value, +newActiveMinutesInput.value, +newStairsInput.value);
   Promise.all([postedActivity])
     .then(value => {
@@ -189,19 +169,12 @@ function updatePageActivity(userNowId, todaysDate) {
         userMinutesToday, 
       ]
       clearHtml(activityElementsToClear);
-      // clearHtml();
-      // startApp(userNowId)
       addDailyActivityInfo(userNowId, currentActivityRepo, todaysDate, userRepo);
-      /*
-      NOTE: startApp will work if: there are NOT multiple dates for the user for Activity OR if you are on a user with broken data
-      Otherwise, addDailyActivityInfo works in all cases
-      */
     })
 }
 
 function submitNewSleep(userNowId) {
   let todaysDate = getTodaysDate();
-  // let todaysDate = '2020/9/31'
   let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSlept.value, +newSleepQuality.value)
   Promise.all([postedSleep])
     .then(value => {
@@ -220,9 +193,6 @@ function updatePageSleep(userNowId, todaysDate) {
         sleepQualityToday,
       ];
       clearHtml(sleepElementsToClear);
-      // clearHtml();
-      // startApp();
-      console.log(currentSleepRepo)
       addDailySleepInfo(userNowId, currentSleepRepo, todaysDate) 
     })
 }
@@ -255,50 +225,21 @@ function makeRandomDate(userStorage, id, dataSet) {
   return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date;
 }
 
-function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
-  // hydrationToday.innerHTML = '';
-  // hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>` ;
-  // console.log('id', id)
-
-  // console.log('data', hydrationInfo)
-  addDailyOuncesInfo(id, hydrationInfo, dateString);
-  
-
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
-  
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
-  
-  hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
-}
-
 function clearHtml(queryElements) {
-  // let queryElements = [
-  //   hydrationToday,
-  //   hydrationAverage,
-  //   hydrationThisWeek,
-  //   hydrationEarlierWeek,
-  //   userStairsToday, 
-  //   userStepsToday, 
-  //   userMinutesToday, 
-  //   avgStairsToday, 
-  //   avgStepsToday, 
-  //   avgMinutesToday,
-  //   userStepsThisWeek, 
-  //   userStairsThisWeek,
-  //   userMinutesThisWeek,
-  //   bestUserSteps,
-  //   sleepToday,
-  //   sleepQualityToday,
-  // ]
   queryElements.forEach(query => {
     query.innerHTML = '';
   })
 }
 
+function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
+  addDailyOuncesInfo(id, hydrationInfo, dateString);
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
+  hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+}
+
 function addDailyOuncesInfo(id, hydrationInfo, dateString) {
-  // console.log('first', id);
   let ounces = hydrationInfo.calculateDailyOunces(id, dateString);
-  // hydrationToday.innerHTML = '';
   hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${ounces}</span></p><p>oz water today.</p>` ;
 }
 
@@ -315,7 +256,6 @@ function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
 }
 
 function addDailySleepInfo(id, sleepInfo, dateString) {
-  console.log(id);
   sleepToday.insertAdjacentHTML('afterBegin', `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
   sleepQualityToday.insertAdjacentHTML('afterBegin', `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
 }
@@ -343,11 +283,6 @@ function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateStr
 }
 
 function addDailyActivityInfo(id, activityInfo, dateString, userStorage) {
-  // console.log('relevantData', userStorage);
-  // userStairsToday.innerHTML = '';
-  // userStepsToday.innerHTML = '';
-  // userMinutesToday.innerHTML = '';
-
   userStairsToday.insertAdjacentHTML('afterBegin', `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`);
   userStepsToday.insertAdjacentHTML('afterBegin', `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')}</span></p>`);
   userMinutesToday.insertAdjacentHTML('afterBegin', `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'minutesActive')}</span></p>`);
@@ -381,9 +316,3 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
-;
-
-
-
-// startApp();
-
