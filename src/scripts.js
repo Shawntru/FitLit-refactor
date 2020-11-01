@@ -11,6 +11,7 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
+import UserData from './UserData';
 
 const sidebarName = document.getElementById('sidebarName');
 const stepGoalCard = document.getElementById('stepGoalCard');
@@ -81,16 +82,13 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
 function startApp(userIdCurrently) {
 
   let userList = makeUsers(userData);
+  const userDataRepo = new UserData(hydrationData, sleepData, activityData, userList);
   const userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
   const sleepRepo = new Sleep(sleepData);
   const activityRepo = new Activity(activityData);
-  if (userIdCurrently !== 0) {
-    userNowId = userIdCurrently
-  } else if(userIdCurrently === 0){
-    userNowId = pickUser();
-  }
-  // userNowId = pickUser();
+  const userNowId = pickUser();
+  console.log("User ID:  " + userNowId);
   const userNow = getUserById(userNowId, userRepo);
   const today = makeToday(userRepo, userNowId, hydrationData);
   const randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
@@ -102,7 +100,6 @@ function startApp(userIdCurrently) {
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
-
 
 function makeUsers(usersData) {
   return usersData.map((dataItem) => {
@@ -117,7 +114,6 @@ function pickUser() {
 function getUserById(id, listRepo) {
   return listRepo.getDataFromID(id);
 }
-
 
 function windowOnClick(event) {
   if (event.target.classList.contains("new-hydration-button")) {
@@ -237,7 +233,9 @@ function makeSleepHTML(id, sleepInfo, userStorage, method) {
 }
 
 function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
-  return method.map((sleepQualityData) => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
+  return method
+  .map((sleepQualityData) => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`)
+  .join('');
 }
 
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
@@ -280,9 +278,3 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
-;
-
-
-
-// startApp();
-
