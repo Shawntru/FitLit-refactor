@@ -50,6 +50,9 @@ const newActiveMinutesInput = document.querySelector('.new-activity-input-minute
 const newStairsInput = document.querySelector('.new-activity-input-stairs');
 const newHoursSlept = document.querySelector('.new-hours-slept-input');
 const newSleepQuality = document.querySelector('.new-sleep-quality-input');
+const newHydrationButton = document.querySelector('.new-hydration-button');
+const newActivityButton = document.querySelector('.new-activity-button');
+const newSleepButton = document.querySelector('.new-sleep-button');
 
 window.addEventListener('click', windowOnClick);
 
@@ -147,7 +150,7 @@ function submitNewHydration(userNowId) {
     .then( () => {
       updatePageHydration(userNowId, todaysDate);
   });
-
+  newHydrationButton.disabled = true;
 }
 
 function updatePageHydration (userNowId, todaysDate) {
@@ -170,11 +173,31 @@ function updatePageHydration (userNowId, todaysDate) {
 function submitNewActivity(userNowId) {
   // let todaysDate = getTodaysDate();
   let todaysDate = '2020/9/31'
-  let postedActivity = requests.postActivityData(userNowId, todaysDate, +newStepsInput.value, +newActiveMinutesInput.value, +newStairsInput.value);
+  let newStepsActivityData = newStepsInput.value
+  let newMinutesActivityData = newStairsInput.value
+  let newStairsActivityData = newActiveMinutesInput.value
+
+  if (!newStepsActivityData) {
+    return alert("Please enter a number of steps")
+  } else if (newStepsActivityData > 10000) {
+    newStepsActivityData = 10000
+  }
+  if (!newMinutesActivityData) {
+    return alert("Please enter a number of active minutes")
+  } else if (newMinutesActivityData > 300) {
+    newMinutesActivityData = 300
+  }
+  if (!newStairsActivityData) {
+    return alert("Please enter an amount for todays stairs")
+  } else if (newStairsActivityData > 100) {
+    newStairsActivityData = 100
+  }
+  let postedActivity = requests.postActivityData(userNowId, todaysDate, +newStepsActivityData, +newMinutesActivityData, +newStairsActivityData);
   Promise.all([postedActivity])
     .then(value => {
       updatePageActivity(userNowId, todaysDate)
     })
+  newActivityButton.disabled = true;
 }
 
 function updatePageActivity(userNowId, todaysDate) {
@@ -201,11 +224,25 @@ function updatePageActivity(userNowId, todaysDate) {
 function submitNewSleep(userNowId) {
   // let todaysDate = getTodaysDate();
   let todaysDate = '2020/9/31'
-  let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSlept.value, +newSleepQuality.value)
+  let newHoursSleptInput = newHoursSlept.value
+  let newSleepQualityInput = newSleepQuality.value
+  if(!newHoursSleptInput) {
+    return alert("Please enter a number of hours slept")
+  } else if (newHoursSleptInput > 12) {
+    newHoursSleptInput = 12
+  }
+  if (!newSleepQualityInput) {
+    return alert("Please enter a number for quality")
+  } else if (newSleepQualityInput > 5) {
+    newSleepQualityInput = 5
+  }
+  
+  let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSleptInput, +newSleepQualityInput)
   Promise.all([postedSleep])
     .then(value => {
       updatePageSleep(userNowId, todaysDate)
     })
+  newSleepButton.disabled = true;  
 }
 
 function updatePageSleep(userNowId, todaysDate) {
