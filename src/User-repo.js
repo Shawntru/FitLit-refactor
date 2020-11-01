@@ -1,25 +1,14 @@
-class UserRepo {
+import UserData from './UserData';
+
+class UserRepo extends UserData{
   constructor(users) {
+    super();
     this.users = users;
-  }
-
-  getDataFromID(id) {
-    return this.users.find((user) => id === user.id);
-  }
-
-  getDataFromUserID(id, dataSet) {
-    return dataSet.filter((userData) => id === userData.userID);
   }
 
   calculateAverageStepGoal() {
     const totalStepGoal = this.users.reduce((sumSoFar, data) => sumSoFar += data.dailyStepGoal, 0);
     return totalStepGoal / this.users.length;
-  }
-
-  makeSortedUserArray(id, dataSet) {
-    const selectedID = this.getDataFromUserID(id, dataSet);
-    const sortedByDate = selectedID.sort((a, b) => new Date(b.date) - new Date(a.date));
-    return sortedByDate;
   }
 
   getToday(id, dataSet) {
@@ -30,10 +19,9 @@ class UserRepo {
     return this.makeSortedUserArray(id, dataSet).slice(0, 7);
   }
 
-  getWeekFromDate(date, id, dataSet) {
-    const dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-    return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
-  }
+  // getWeekFromDate(date, id, dataSet) {
+  //   return getWeekFromDate(date, id, dataSet)
+  // }
 
   chooseWeekDataForAllUsers(dataSet, date) {
     return dataSet.filter((dataItem) => (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date));
