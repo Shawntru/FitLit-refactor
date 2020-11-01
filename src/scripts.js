@@ -45,16 +45,27 @@ const userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 const bestUserSteps = document.getElementById('bestUserSteps');
 const streakList = document.getElementById('streakList');
 const streakListMinutes = document.getElementById('streakListMinutes');
+const newHydrationInput = document.querySelector('.new-hydration-input');
+const newStepsInput = document.querySelector('.new-activity-input-steps');
+const newActiveMinutesInput = document.querySelector('.new-activity-input-minutes');
+const newStairsInput = document.querySelector('.new-activity-input-stairs');
+const newHoursSlept = document.querySelector('.new-hours-slept-input');
+const newSleepQuality = document.querySelector('.new-sleep-quality-input');
+const updateHydrationButton = document.querySelector(".new-hydration-button")
+window.addEventListener('click', windowOnClick);
 
 const receivedUserData = requests.fetchUserData();
 const receivedActivityData = requests.fetchActivityData();
 const receivedHydrationData = requests.fetchHydrationData();
 const receivedSleepData = requests.fetchSleepData();
 
+let userNowId;
 let userData;
 let activityData;
 let hydrationData;
 let sleepData;
+
+
 
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
   .then(value => {
@@ -62,10 +73,14 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
     activityData = value[1];
     hydrationData = value[2];
     sleepData = value[3];
-    startApp();
+    startApp(0);
   })
+  
 
-function startApp() {
+
+
+function startApp(userIdCurrently) {
+
   let userList = makeUsers(userData);
   const userDataRepo = new UserData(hydrationData, sleepData, activityData, userList);
   const userRepo = new UserRepo(userList);
@@ -100,6 +115,63 @@ function getUserById(id, listRepo) {
   return listRepo.getDataFromID(id);
 }
 
+function windowOnClick(event) {
+  if (event.target.classList.contains("new-hydration-button")) {
+    submitNewHydration(userNowId);
+  }
+  if (event.target.classList.contains("new-activity-button")) {
+    submitNewActivity(userNowId);
+  }
+  if (event.target.classList.contains("new-sleep-button")) {
+    submitNewSleep(userNowId);
+  }
+}
+
+function getTodaysDate() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  return today = yyyy + '/' + mm + '/' + dd;
+}
+
+function submitNewHydration(userNowId) {
+  let todaysDate = getTodaysDate()
+  let newHydrationValue = newHydrationInput.value
+  if (!newHydrationValue) {
+    return alert("Please enter a value")
+  } else if (newHydrationValue > 128) {
+    newHydrationValue = 128
+  }
+  let postedHydration = requests.postHydrationData(userNowId, todaysDate, +newHydrationValue)
+  Promise.all([postedHydration])
+    .then(value => {
+      updatePageHydration (userNowId, todaysDate) 
+  });
+  updateHydrationButton.disabled = true;
+}
+
+function updatePageHydration (userNowId, todaysDate) {
+  let newRecievedHydration = requests.fetchHydrationData()
+  Promise.all([newRecievedHydration])
+    .then(value => {
+      hydrationData = value[0];
+      hydrationToday.innerHTML = '';
+      startApp(userNowId)
+    })
+}
+
+function submitNewActivity(userNowId) {
+  let date = getTodaysDate()
+  requests.postActivityData(userNowId, date, newStepsInput.value, newActiveMinutesInput.value, newStairsInput.value)
+}
+
+function submitNewSleep(userNowId) {
+  let date = getTodaysDate()
+  
+  requests.postSleepData(userNowId, date, newHoursSlept.value, newSleepQuality.value)
+}
+
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
@@ -130,10 +202,17 @@ function makeRandomDate(userStorage, id, dataSet) {
 }
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
-  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
+  addDailyOuncesInfo(id, hydrationInfo, dateString);
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+  hydrationAverage.innerHTML = '';
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
+}
+
+function addDailyOuncesInfo(id, hydrationInfo, dateString) {
+  hydrationToday.innerHTML = '';
+  typeof hydrationInfo.numOunces === "number" ? hydrationInfo.numOunces : 0
+  hydrationToday.insertAdjacentHTML('afterBegin',`<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
@@ -141,6 +220,7 @@ function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
 }
 
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
+  typeof sleepInfo.hoursSlept === "number" ? sleepInfo.hoursSlept : 0
   sleepToday.insertAdjacentHTML('afterBegin', `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
   sleepQualityToday.insertAdjacentHTML('afterBegin', `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
   avUserSleepQuality.insertAdjacentHTML('afterBegin', `<p>The average user's sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calculateAllUserSleepQuality() * 100) / 100}</span></p><p>out of 5.</p>`);

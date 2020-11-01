@@ -8,6 +8,7 @@ class Hydration extends UserData {
 
   calculateAverageOunces(id) {
     const perDayUserHydration = this.hydrationData.filter((data) => id === data.userID);
+    console.log('length', perDayUserHydration.length)
     return perDayUserHydration.reduce((sumSoFar, data) => sumSoFar += data.numOunces, 0) / perDayUserHydration.length;
   }
 
