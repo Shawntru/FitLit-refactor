@@ -12,6 +12,7 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
+window.addEventListener('click', windowOnClick);
 const sidebarName = document.getElementById('sidebarName');
 const stepGoalCard = document.getElementById('stepGoalCard');
 const headerText = document.getElementById('headerText');
@@ -54,8 +55,6 @@ const newHydrationButton = document.querySelector('.new-hydration-button');
 const newActivityButton = document.querySelector('.new-activity-button');
 const newSleepButton = document.querySelector('.new-sleep-button');
 
-window.addEventListener('click', windowOnClick);
-
 const receivedUserData = requests.fetchUserData();
 const receivedActivityData = requests.fetchActivityData();
 const receivedHydrationData = requests.fetchHydrationData();
@@ -68,7 +67,6 @@ let hydrationData;
 let sleepData;
 let userRepo;
 
-
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
   .then(value => {
     userData = value[0]
@@ -76,10 +74,9 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
     hydrationData = value[2];
     sleepData = value[3];
     startApp(0);
-  })
+  });
 
 function startApp(userIdCurrently) {
-
   let userList = makeUsers(userData);
   userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
@@ -87,8 +84,8 @@ function startApp(userIdCurrently) {
   const sleepRepo = new Sleep(sleepData);
   const activityRepo = new Activity(activityData);
   if (userIdCurrently !== 0) {
-    userNowId = userIdCurrently
-  } else if(userIdCurrently === 0){
+    userNowId = userIdCurrently;
+  } else if (userIdCurrently === 0){
     userNowId = pickUser();
   }
   // userNowId = pickUser();
@@ -102,11 +99,10 @@ function startApp(userIdCurrently) {
   const winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
-  console.log(userNowId)
 }
 
 function makeUsers(usersData) {
-  return usersData.map((dataItem) => {
+  return usersData.map(dataItem => {
     return new User(dataItem);
   });
 }
@@ -120,97 +116,97 @@ function getUserById(id, listRepo) {
 }
 
 function windowOnClick(event) {
-  if (event.target.classList.contains("new-hydration-button")) {
+  if (event.target.classList.contains('new-hydration-button')) {
     submitNewHydration(userNowId);
   }
-  if (event.target.classList.contains("new-activity-button")) {
+  if (event.target.classList.contains('new-activity-button')) {
     submitNewActivity(userNowId);
   }
-  if (event.target.classList.contains("new-sleep-button")) {
+  if (event.target.classList.contains('new-sleep-button')) {
     submitNewSleep(userNowId);
   }
 }
 
 function getTodaysDate() {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-  var yyyy = today.getFullYear();
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let yyyy = today.getFullYear();
   return today = yyyy + '/' + mm + '/' + dd;
 }
 
 function submitNewHydration(userNowId) {
   // let todaysDate = getTodaysDate();
-  let todaysDate = '2020/9/31'
+  let todaysDate = '2020/9/31';
   /*
   This is to remind me that if there are multiple entries on the same day, see not on line 163!!! 
   */
   let postedHydration = requests.postHydrationData(userNowId, todaysDate, +newHydrationInput.value);
   Promise.all([postedHydration])
-    .then( () => {
+    .then(() => {
       updatePageHydration(userNowId, todaysDate);
-  });
+    });
   newHydrationButton.disabled = true;
 }
 
-function updatePageHydration (userNowId, todaysDate) {
+function updatePageHydration(userNowId, todaysDate) {
   let newRecievedHydration = requests.fetchHydrationData();
   Promise.all([newRecievedHydration])
-    .then(value => {
+    .then((value) => {
       hydrationData = value[0];
       const newHydration = new Hydration(hydrationData);
-      let hydrationElementsToClear = [hydrationToday] //, hydrationAverage, hydrationThisWeek, hydrationEarlierWeek]
+      let hydrationElementsToClear = [hydrationToday]; //, hydrationAverage, hydrationThisWeek, hydrationEarlierWeek]
       clearHtml(hydrationElementsToClear);
       // clearHtml();
       // startApp(userNowId);
-      addDailyOuncesInfo(userNowId, newHydration, todaysDate)
+      addDailyOuncesInfo(userNowId, newHydration, todaysDate);
       /*
       NOTE: These only work if there is are NOT multiple data for the same date for any given user 
       */
-    })
+    });
 }
 
 function submitNewActivity(userNowId) {
   // let todaysDate = getTodaysDate();
-  let todaysDate = '2020/9/31'
-  let newStepsActivityData = newStepsInput.value
-  let newMinutesActivityData = newStairsInput.value
-  let newStairsActivityData = newActiveMinutesInput.value
+  let todaysDate = '2020/9/31';
+  let newStepsActivityData = newStepsInput.value;
+  let newMinutesActivityData = newStairsInput.value;
+  let newStairsActivityData = newActiveMinutesInput.value;
 
   if (!newStepsActivityData) {
-    return alert("Please enter a number of steps")
+    return alert('Please enter a number of steps');
   } else if (newStepsActivityData > 10000) {
-    newStepsActivityData = 10000
+    newStepsActivityData = 10000;
   }
   if (!newMinutesActivityData) {
-    return alert("Please enter a number of active minutes")
+    return alert('Please enter a number of active minutes');
   } else if (newMinutesActivityData > 300) {
-    newMinutesActivityData = 300
+    newMinutesActivityData = 300;
   }
   if (!newStairsActivityData) {
-    return alert("Please enter an amount for todays stairs")
+    return alert('Please enter an amount for todays stairs');
   } else if (newStairsActivityData > 100) {
-    newStairsActivityData = 100
+    newStairsActivityData = 100;
   }
   let postedActivity = requests.postActivityData(userNowId, todaysDate, +newStepsActivityData, +newMinutesActivityData, +newStairsActivityData);
   Promise.all([postedActivity])
-    .then(value => {
-      updatePageActivity(userNowId, todaysDate)
-    })
+    .then((value) => {
+      updatePageActivity(userNowId, todaysDate);
+    });
   newActivityButton.disabled = true;
 }
 
 function updatePageActivity(userNowId, todaysDate) {
   let newReceivedActivity = requests.fetchActivityData();
   Promise.all([newReceivedActivity])
-    .then(value => {
+    .then((value) => {
       activityData = value[0];
       const currentActivityRepo = new Activity(activityData);
       let activityElementsToClear = [
-        userStairsToday, 
-        userStepsToday, 
-        userMinutesToday, 
-      ]
+        userStairsToday,
+        userStepsToday,
+        userMinutesToday,
+      ];
       clearHtml(activityElementsToClear);
       // startApp(userNowId)
       addDailyActivityInfo(userNowId, currentActivityRepo, todaysDate, userRepo);
@@ -218,37 +214,36 @@ function updatePageActivity(userNowId, todaysDate) {
       NOTE: startApp will work if: there are NOT multiple dates for the user for Activity OR if you are on a user with broken data
       Otherwise, addDailyActivityInfo works in all cases
       */
-    })
+    });
 }
 
 function submitNewSleep(userNowId) {
   // let todaysDate = getTodaysDate();
-  let todaysDate = '2020/9/31'
-  let newHoursSleptInput = newHoursSlept.value
-  let newSleepQualityInput = newSleepQuality.value
-  if(!newHoursSleptInput) {
-    return alert("Please enter a number of hours slept")
+  let todaysDate = '2020/9/31';
+  let newHoursSleptInput = newHoursSlept.value;
+  let newSleepQualityInput = newSleepQuality.value;
+  if (!newHoursSleptInput) {
+    return alert('Please enter a number of hours slept');
   } else if (newHoursSleptInput > 12) {
-    newHoursSleptInput = 12
+    newHoursSleptInput = 12;
   }
   if (!newSleepQualityInput) {
-    return alert("Please enter a number for quality")
+    return alert('Please enter a number for quality');
   } else if (newSleepQualityInput > 5) {
-    newSleepQualityInput = 5
+    newSleepQualityInput = 5;
   }
-  
-  let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSleptInput, +newSleepQualityInput)
+  let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSleptInput, +newSleepQualityInput);
   Promise.all([postedSleep])
-    .then(value => {
+    .then((value) => {
       updatePageSleep(userNowId, todaysDate)
-    })
-  newSleepButton.disabled = true;  
+    });
+  newSleepButton.disabled = true;
 }
 
 function updatePageSleep(userNowId, todaysDate) {
   let newReceivedSleep = requests.fetchSleepData();
   Promise.all([newReceivedSleep])
-    .then(value => {
+    .then((value) => {
       sleepData = value[0];
       const currentSleepRepo = new Sleep(sleepData);
       let sleepElementsToClear = [
@@ -257,9 +252,8 @@ function updatePageSleep(userNowId, todaysDate) {
       ];
       clearHtml(sleepElementsToClear);
       // startApp();
-      console.log(currentSleepRepo)
-      addDailySleepInfo(userNowId, currentSleepRepo, todaysDate) 
-    })
+      addDailySleepInfo(userNowId, currentSleepRepo, todaysDate);
+    });
 }
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
@@ -297,12 +291,8 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
   // console.log('data', hydrationInfo)
   addDailyOuncesInfo(id, hydrationInfo, dateString);
-  
-
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
-  
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
-  
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
 }
 
@@ -327,14 +317,14 @@ function clearHtml(queryElements) {
   // ]
   queryElements.forEach(query => {
     query.innerHTML = '';
-  })
+  });
 }
 
 function addDailyOuncesInfo(id, hydrationInfo, dateString) {
   // console.log('first', id);
   let ounces = hydrationInfo.calculateDailyOunces(id, dateString);
   // hydrationToday.innerHTML = '';
-  hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${ounces}</span></p><p>oz water today.</p>` ;
+  hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${ounces}</span></p><p>oz water today.</p>`;
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
@@ -350,7 +340,6 @@ function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
 }
 
 function addDailySleepInfo(id, sleepInfo, dateString) {
-  console.log(id);
   sleepToday.insertAdjacentHTML('afterBegin', `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
   sleepQualityToday.insertAdjacentHTML('afterBegin', `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
 }
@@ -386,7 +375,6 @@ function addDailyActivityInfo(id, activityInfo, dateString, userStorage) {
   userStairsToday.insertAdjacentHTML('afterBegin', `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`);
   userStepsToday.insertAdjacentHTML('afterBegin', `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')}</span></p>`);
   userMinutesToday.insertAdjacentHTML('afterBegin', `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'minutesActive')}</span></p>`);
-
 }
 
 function makeStepsHTML(id, activityInfo, userStorage, method) {
@@ -416,9 +404,3 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
-;
-
-
-
-// startApp();
-
