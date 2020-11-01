@@ -50,6 +50,7 @@ const newActiveMinutesInput = document.querySelector('.new-activity-input-minute
 const newStairsInput = document.querySelector('.new-activity-input-stairs');
 const newHoursSlept = document.querySelector('.new-hours-slept-input');
 const newSleepQuality = document.querySelector('.new-sleep-quality-input');
+
 window.addEventListener('click', windowOnClick);
 
 const receivedUserData = requests.fetchUserData();
@@ -63,7 +64,6 @@ let activityData;
 let hydrationData;
 let sleepData;
 let userRepo;
-
 
 
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
@@ -138,44 +138,46 @@ function getTodaysDate() {
 }
 
 function submitNewHydration(userNowId) {
-  let todaysDate = getTodaysDate()
-  requests.postHydrationData(userNowId, todaysDate, newHydrationInput.value)
-  location.reload();
-  // Promise.all([postedHydration])
-  //   .then(value => {
-  //     updatePageHydration(userNowId, todaysDate)
-  //   })
+  let todaysDate = getTodaysDate();
+  let postedHydration = requests.postHydrationData(userNowId, todaysDate, +newHydrationInput.value);
+  Promise.all([postedHydration])
+    .then( () => {
+      updatePageHydration (userNowId, todaysDate);
+  });
+
 }
 
 function updatePageHydration (userNowId, todaysDate) {
-  // let date = getTodaysDate()
-  let newRecievedHydration = requests.fetchHydrationData()
+  let newRecievedHydration = requests.fetchHydrationData();
   Promise.all([newRecievedHydration])
     .then(value => {
       hydrationData = value[0];
-      const currentHydrationRepo = new Hydration(hydrationData);
-      addDailyOuncesInfo(userNowId, currentHydrationRepo, todaysDate);
+      const newHydration = new Hydration(hydrationData);
+      console.log('newHydra', newHydration.hydrationData)
+      // let hydrationElementsToClear = [hydrationToday, hydrationAverage, hydrationThisWeek, hydrationEarlierWeek]
+      // clearHtml(hydrationElementsToClear);
+      addDailyOuncesInfo(userNowId, newHydration, todaysDate)
     })
 }
 
-// function submitNewActivity(userNowId) {
-//   let todaysDate = getTodaysDate();
-//   let postedActivity = requests.postActivityData(userNowId, todaysDate, newStepsInput.value, newActiveMinutesInput.value, newStairsInput.value);
-//   Promise.all([postedActivity])
-//     .then(value => {
-//       updatePageActivity(userNowId, todaysDate)
-//     })
-// }
+function submitNewActivity(userNowId) {
+  let todaysDate = getTodaysDate();
+  let postedActivity = requests.postActivityData(userNowId, todaysDate, newStepsInput.value, newActiveMinutesInput.value, newStairsInput.value);
+  Promise.all([postedActivity])
+    .then(value => {
+      updatePageActivity(userNowId, todaysDate)
+    })
+}
 
-// function updatePageActivity(userNowId, todaysDate) {
-//   let newReceivedActivity = requests.fetchActivityData();
-//   Promise.all([newReceivedActivity])
-//     .then(value => {
-//       activityData = value[0];
-//       const currentActivityRepo = new Activity(activityData);
-//       addDailyActivityInfo(userNowId, currentActivityRepo, todaysDate);
-//     })
-// }
+function updatePageActivity(userNowId, todaysDate) {
+  let newReceivedActivity = requests.fetchActivityData();
+  Promise.all([newReceivedActivity])
+    .then(value => {
+      activityData = value[0];
+      const currentActivityRepo = new Activity(activityData);
+      addDailyActivityInfo(userNowId, currentActivityRepo, todaysDate);
+    })
+}
 
 function submitNewSleep(userNowId) {
   let date = getTodaysDate()
@@ -222,6 +224,8 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
   console.log('data', hydrationInfo)
   addDailyOuncesInfo(id, hydrationInfo, dateString);
+  
+
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
   
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
@@ -229,12 +233,20 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
 }
 
+function clearHtml(queryElements) {
+  queryElements.forEach(query => {
+    query.innerText = '';
+  })
+}
+
 function addDailyOuncesInfo(id, hydrationInfo, dateString) {
   console.log('first', id)
-  console.log('second', hydrationInfo)
-
-  // hydrationToday.innerHTML = '';
-  hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>` ;
+  let last = hydrationInfo.hydrationData.pop()
+  console.log('scripts last update ounces', last)
+  let ounces = hydrationInfo.calculateDailyOunces(id, dateString)
+  console.log('scripts', ounces)
+  hydrationToday.innerHTML = '';
+  hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${ounces}</span></p><p>oz water today.</p>` ;
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
@@ -258,7 +270,7 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 }
 
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
-  addDailyActivityInfo(id, activityInfo, dateString, userStorage);
+  // addDailyActivityInfo(id, activityInfo, dateString, userStorage);
   userStairsToday.insertAdjacentHTML('afterBegin', `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`);
   avgStairsToday.insertAdjacentHTML('afterBegin', `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`);
   userStepsToday.insertAdjacentHTML('afterBegin', `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')}</span></p>`);
