@@ -172,7 +172,6 @@ function submitNewActivity(userNowId) {
   let newStepsActivityData = newStepsInput.value;
   let newMinutesActivityData = newStairsInput.value;
   let newStairsActivityData = newActiveMinutesInput.value;
-
   if (!newStepsActivityData) {
     return alert('Please enter a number of steps');
   } else if (newStepsActivityData > 10000) {
