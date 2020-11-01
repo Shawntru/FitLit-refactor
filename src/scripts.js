@@ -137,8 +137,8 @@ function getTodaysDate() {
 }
 
 function submitNewHydration(userNowId) {
-  // let todaysDate = getTodaysDate();
-  let todaysDate = '2020/9/31'
+  let todaysDate = getTodaysDate();
+  // let todaysDate = '2020/9/31'
   /*
   This is to remind me that if there are multiple entries on the same day, see not on line 163!!! 
   */
@@ -168,8 +168,8 @@ function updatePageHydration (userNowId, todaysDate) {
 }
 
 function submitNewActivity(userNowId) {
-  // let todaysDate = getTodaysDate();
-  let todaysDate = '2020/9/31'
+  let todaysDate = getTodaysDate();
+  // let todaysDate = '2020/9/31'
   let postedActivity = requests.postActivityData(userNowId, todaysDate, +newStepsInput.value, +newActiveMinutesInput.value, +newStairsInput.value);
   Promise.all([postedActivity])
     .then(value => {
@@ -189,6 +189,7 @@ function updatePageActivity(userNowId, todaysDate) {
         userMinutesToday, 
       ]
       clearHtml(activityElementsToClear);
+      // clearHtml();
       // startApp(userNowId)
       addDailyActivityInfo(userNowId, currentActivityRepo, todaysDate, userRepo);
       /*
@@ -199,8 +200,8 @@ function updatePageActivity(userNowId, todaysDate) {
 }
 
 function submitNewSleep(userNowId) {
-  // let todaysDate = getTodaysDate();
-  let todaysDate = '2020/9/31'
+  let todaysDate = getTodaysDate();
+  // let todaysDate = '2020/9/31'
   let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSlept.value, +newSleepQuality.value)
   Promise.all([postedSleep])
     .then(value => {
@@ -219,6 +220,7 @@ function updatePageSleep(userNowId, todaysDate) {
         sleepQualityToday,
       ];
       clearHtml(sleepElementsToClear);
+      // clearHtml();
       // startApp();
       console.log(currentSleepRepo)
       addDailySleepInfo(userNowId, currentSleepRepo, todaysDate) 
