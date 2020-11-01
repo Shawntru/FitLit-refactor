@@ -1,5 +1,3 @@
-// import sleepData from './data/sleep';
-
 class Sleep {
   constructor(sleepData) {
     this.sleepData = sleepData;
@@ -13,17 +11,6 @@ class Sleep {
   calculateAverageSleepQuality(id) {
     const perDaySleepQuality = this.sleepData.filter((data) => id === data.userID);
     return perDaySleepQuality.reduce((sumSoFar, data) => sumSoFar += data.sleepQuality, 0) / perDaySleepQuality.length;
-  }
-
-  calculateDailySleep(id, date) {
-    const findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    // this.sleepData.forEach(data => {
-    //   typeof data.hoursSlept === "number" ? data.hoursSlept : 0
-    // })
-    // typeof findSleepByDate.hoursSlept === "number" ? findSleepByDate.hoursSlept : 0
-    return this.sleepData.forEach(data => {
-        typeof data.hoursSlept === "number" ? data.hoursSlept : 0
-      });
   }
 
   calculateDailySleepQuality(id, date) {

@@ -121,7 +121,6 @@ function getUserById(id, listRepo) {
 
 function windowOnClick(event) {
   if (event.target.classList.contains("new-hydration-button")) {
-    
     submitNewHydration(userNowId);
   }
   if (event.target.classList.contains("new-activity-button")) {
@@ -140,7 +139,6 @@ function getTodaysDate() {
   return today = yyyy + '/' + mm + '/' + dd;
 }
 
-
 function submitNewHydration(userNowId) {
   let todaysDate = getTodaysDate()
   let newHydrationValue = newHydrationInput.value
@@ -149,7 +147,7 @@ function submitNewHydration(userNowId) {
   } else if (newHydrationValue > 128) {
     newHydrationValue = 128
   }
-  let postedHydration = requests.postHydrationData(userNowId, todaysDate, newHydrationValue)
+  let postedHydration = requests.postHydrationData(userNowId, todaysDate, +newHydrationValue)
   Promise.all([postedHydration])
     .then(value => {
       updatePageHydration (userNowId, todaysDate) 
@@ -157,16 +155,13 @@ function submitNewHydration(userNowId) {
   updateHydrationButton.disabled = true;
 }
 
-
 function updatePageHydration (userNowId, todaysDate) {
   let newRecievedHydration = requests.fetchHydrationData()
   Promise.all([newRecievedHydration])
     .then(value => {
       hydrationData = value[0];
-      // let hydrationElementsToClear = q
       hydrationToday.innerHTML = '';
       startApp(userNowId)
-      // addDailyOuncesInfo(userNowId, currentHydrationRepo, todaysDate);
     })
 }
 
@@ -214,15 +209,14 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
   addDailyOuncesInfo(id, hydrationInfo, dateString);
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+  hydrationAverage.innerHTML = '';
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
 }
 
 function addDailyOuncesInfo(id, hydrationInfo, dateString) {
   hydrationToday.innerHTML = '';
   typeof hydrationInfo.numOunces === "number" ? hydrationInfo.numOunces : 0
   hydrationToday.insertAdjacentHTML('afterBegin',`<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
-  hydrationAverage.innerHTML = '';
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`);
-  
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
