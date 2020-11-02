@@ -192,3 +192,17 @@ h1 {
   font-weight: bold;
   font-family: $document-font-family;
 }
+
+.new-hydration-button, .new-activity-button,
+.new-sleep-button {
+  background-color: $sidebar-color;
+  font-family: $document-font-family;
+  border-radius: 5px;
+}
+
+.max{
+  font-family: $document-font-family;
+  font-size: 15px;
+  color: black;
+}
+
