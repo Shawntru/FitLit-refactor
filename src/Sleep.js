@@ -6,22 +6,16 @@ class Sleep extends UserData {
     this.sleepData = sleepData;
   }
 
-  calculateDailySleep(id, date) { 
-    const findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    if (!findSleepByDate) {
-      return 0
-    } else {
-      return findSleepByDate.hoursSlept;
-    }
+  calculateDailySleep(id, date) {
+    const findSleepByDate = this.sleepData
+      .find((data) => id === data.userID && date === data.date);
+    return findSleepByDate.hoursSlept;
   }
 
   calculateDailySleepQuality(id, date) {
-    const findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
-    if (!findSleepQualityByDate) {
-      return 0
-    } else {
-      return findSleepQualityByDate.sleepQuality;
-    }
+    const findSleepQualityByDate = this.sleepData
+      .find((data) => id === data.userID && date === data.date);
+    return findSleepQualityByDate.sleepQuality;
   }
 
   calculateWeekSleep(date, id, userRepo) {
