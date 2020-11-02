@@ -51,7 +51,9 @@ const newActiveMinutesInput = document.querySelector('.new-activity-input-minute
 const newStairsInput = document.querySelector('.new-activity-input-stairs');
 const newHoursSlept = document.querySelector('.new-hours-slept-input');
 const newSleepQuality = document.querySelector('.new-sleep-quality-input');
-const updateHydrationButton = document.querySelector(".new-hydration-button")
+const updateHydrationButton = document.querySelector(".new-hydration-button");
+const updateSleepButton = document.querySelector(".new-sleep-button");
+const updateActivityButton = document.querySelector(".new-activity-button")
 window.addEventListener('click', windowOnClick);
 
 const receivedUserData = requests.fetchUserData();
@@ -131,10 +133,17 @@ function getTodaysDate() {
 
 function submitNewHydration(userNowId) {
   let todaysDate = getTodaysDate();
-  requests.postHydrationData(userNowId, todaysDate, +newHydrationInput.value)
+  let newHydrationOunces = newHydrationInput.value
+  if (!newHydrationOunces) {
+    return alert("Please enter a number of ounces drank today")
+  } else if (newHydrationOunces > 128) {
+    newHydrationOunces = 128
+  }
+  requests.postHydrationData(userNowId, todaysDate, +newHydrationOunces)
     .then(() => {
       updatePageHydration(userNowId, todaysDate);
   });
+  updateHydrationButton.disabled = true;
 }
 
 function updatePageHydration (userNowId, todaysDate) {
@@ -149,10 +158,29 @@ function updatePageHydration (userNowId, todaysDate) {
 
 function submitNewActivity(userNowId) {
   let todaysDate = getTodaysDate()
-  requests.postActivityData(userNowId, todaysDate, +newStepsInput.value, +newActiveMinutesInput.value, +newStairsInput.value)
+  let newStepsActivityData = newStepsInput.value;
+  let newMinutesActivityData = newStairsInput.value;
+  let newStairsActivityData = newActiveMinutesInput.value;
+  if (!newStepsActivityData) {
+    return alert('Please enter a number of steps');
+  } else if (newStepsActivityData > 20000) {
+    newStepsActivityData = 20000;
+  }
+  if (!newMinutesActivityData) {
+    return alert('Please enter a number of active minutes');
+  } else if (newMinutesActivityData > 300) {
+    newMinutesActivityData = 300;
+  }
+  if (!newStairsActivityData) {
+    return alert('Please enter an amount for todays stairs');
+  } else if (newStairsActivityData > 100) {
+    newStairsActivityData = 100;
+  }
+  requests.postActivityData(userNowId, todaysDate, +newStepsActivityData, +newMinutesActivityData, +newStairsActivityData)
     .then(value => {
       updatePageActivity(userNowId, todaysDate)
     })
+  updateActivityButton.disabled = true;
 }
 
 function updatePageActivity(userNowId, todaysDate) {
@@ -172,9 +200,23 @@ function updatePageActivity(userNowId, todaysDate) {
 
 function submitNewSleep(userNowId) {
   let todaysDate = getTodaysDate();
-  requests.postSleepData(userNowId, todaysDate, +newHoursSlept.value, +newSleepQuality.value)    .then(value => {
+  let newHoursSleptInput = newHoursSlept.value;
+  let newSleepQualityInput = newSleepQuality.value;
+  if (!newHoursSleptInput) {
+    return alert('Please enter a number of hours slept');
+  } else if (newHoursSleptInput > 12) {
+    newHoursSleptInput = 12;
+  }
+  if (!newSleepQualityInput) {
+    return alert('Please enter a number for quality');
+  } else if (newSleepQualityInput > 5) {
+    newSleepQualityInput = 5;
+  }
+  requests.postSleepData(userNowId, todaysDate, +newHoursSleptInput , +newSleepQualityInput)  
+      .then(value => {
       updatePageSleep(userNowId, todaysDate)
     })
+  updateSleepButton.disabled = true;
 }
 
 function updatePageSleep(userNowId, todaysDate) {

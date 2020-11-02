@@ -46,8 +46,8 @@
           <div class="card-today-hydration">
             <p id="hydrationToday"></p>
           </div>
-          <p>Max amount is 128oz</p>
-          <input type="text" class="new-hydration-input" placeholder="Number of ounces" onkeyup="value=value.replace(/[^\d]/g,'')">
+          <label for="new-number-of-ounces"><input type="text" class="new-hydration-input" placeholder="Number of ounces" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <p class="max">Max 128oz</p>
           <button id="hydration-button" class="new-hydration-button" >Submit todays hydration info</button>
           <div class="card-today-hydration">
             <p id="hydrationAverage"></p>
@@ -72,9 +72,12 @@
       </section>
       <section class="main-column-activity">
         <section class="infoContainer-cardContainer-card-horizontal">
-          <input type="text" class="new-activity-input-steps" placeholder="Number of steps" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <label for="new-steps-number"><input type="text" class="new-activity-input-steps" placeholder="Number of steps" onkeyup="value=value.replace(/[^\d]/g,'')">
+              <p class="max">Max 20,000 steps</p>
             <input type="text" class="new-activity-input-minutes" placeholder="Minutes Active" onkeyup="value=value.replace(/[^\d]/g,'')">
-            <input type="text" class="new-activity-input-stairs" placeholder="Number of stairs" onkeyup="value=value.replace(/[^\d]/g,'')">
+              <p class="max">Max 300 minutes</p>
+            <label for="new-stairs-count"><input type="text" class="new-activity-input-stairs" placeholder="Number of stairs" onkeyup="value=value.replace(/[^\d]/g,'')">
+              <p class="max">Max 100 stairs</p>
             <button class="new-activity-button" >Submit todays activity info</button>
           <section class="horizontalCard-activity-container">          
             <div class="card-today-activity">
@@ -144,8 +147,10 @@
           </div>
           <div class="card-today-sleep">
             <p id="sleepQualityToday"></p>
-            <input type="text" class="new-hours-slept-input" placeholder="Number of Hours Slept" onkeyup="value=value.replace(/[^\d]/g,'')">
-            <input type="text" class="new-sleep-quality-input" placeholder="New sleep Quality" onkeyup="value=value.replace(/[^\d]/g,'')">
+            <label for="new-hours-slept"><input type="text" class="new-hours-slept-input" placeholder="Number of Hours Slept" onkeyup="value=value.replace(/[^\d]/g,'')">
+              <p class="max">Max 12 hours</p>
+            <label for="new-sleep-quality"><input type="text" class="new-sleep-quality-input" placeholder="New sleep Quality" onkeyup="value=value.replace(/[^\d]/g,'')">
+              <p class="max">Max is 5</p>
             <button class="new-sleep-button">Submit todays sleep info</button>
           </div>
           <div class="card-today-sleep">
