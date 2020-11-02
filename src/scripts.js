@@ -71,10 +71,10 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
     activityData = value[1];
     hydrationData = value[2];
     sleepData = value[3];
-    startApp(0);
+    startApp();
   })
 
-function startApp(userIdCurrently) {
+function startApp() {
   let userList = makeUsers(userData);
   userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
