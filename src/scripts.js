@@ -177,16 +177,16 @@ function submitNewSleep(userNowId) {
 
 function updatePageSleep(userNowId, todaysDate) {
   requests.fetchSleepData()
-      .then(value => {
-      sleepData = value;
-      const currentSleepRepo = new Sleep(sleepData);
-      let sleepElementsToClear = [
-        sleepToday,
-        sleepQualityToday,
-      ];
-      clearHtml(sleepElementsToClear);
-      addDailySleepInfo(userNowId, currentSleepRepo, todaysDate) 
-    })
+    .then(value => {
+    sleepData = value;
+    const currentSleepRepo = new Sleep(sleepData);
+    let sleepElementsToClear = [
+      sleepToday,
+      sleepQualityToday,
+    ];
+    clearHtml(sleepElementsToClear);
+    addDailySleepInfo(userNowId, currentSleepRepo, todaysDate) 
+  })
 }
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
