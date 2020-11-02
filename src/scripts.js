@@ -11,6 +11,7 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
+import UserData from './UserData';
 
 const sidebarName = document.getElementById('sidebarName');
 const stepGoalCard = document.getElementById('stepGoalCard');
@@ -50,7 +51,7 @@ const newActiveMinutesInput = document.querySelector('.new-activity-input-minute
 const newStairsInput = document.querySelector('.new-activity-input-stairs');
 const newHoursSlept = document.querySelector('.new-hours-slept-input');
 const newSleepQuality = document.querySelector('.new-sleep-quality-input');
-
+const updateHydrationButton = document.querySelector(".new-hydration-button")
 window.addEventListener('click', windowOnClick);
 
 const receivedUserData = requests.fetchUserData();
@@ -63,7 +64,7 @@ let userData;
 let activityData;
 let hydrationData;
 let sleepData;
-let userRepo;
+
 
 Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, receivedSleepData])
   .then(value => {
@@ -76,7 +77,8 @@ Promise.all([receivedUserData, receivedActivityData, receivedHydrationData, rece
 
 function startApp() {
   let userList = makeUsers(userData);
-  userRepo = new UserRepo(userList);
+  const userDataRepo = new UserData(hydrationData, sleepData, activityData, userList);
+  const userRepo = new UserRepo(userList);
   const hydrationRepo = new Hydration(hydrationData);
   const sleepRepo = new Sleep(sleepData);
   const activityRepo = new Activity(activityData);
@@ -188,6 +190,7 @@ function updatePageSleep(userNowId, todaysDate) {
     addDailySleepInfo(userNowId, currentSleepRepo, todaysDate) 
   })
 }
+
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
@@ -233,6 +236,7 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 function addDailyOuncesInfo(id, hydrationInfo, dateString) {
   let ounces = hydrationInfo.calculateDailyOunces(id, dateString);
   hydrationToday.innerHTML = `<p>You drank</p><p><span class="number">${ounces}</span></p><p>oz water today.</p>` ;
+
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
@@ -240,6 +244,7 @@ function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
 }
 
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
+  typeof sleepInfo.hoursSlept === "number" ? sleepInfo.hoursSlept : 0
   sleepToday.insertAdjacentHTML('afterBegin', `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
   sleepQualityToday.insertAdjacentHTML('afterBegin', `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
   avUserSleepQuality.insertAdjacentHTML('afterBegin', `<p>The average user's sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calculateAllUserSleepQuality() * 100) / 100}</span></p><p>out of 5.</p>`);
@@ -257,7 +262,9 @@ function makeSleepHTML(id, sleepInfo, userStorage, method) {
 }
 
 function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
-  return method.map((sleepQualityData) => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
+  return method
+  .map((sleepQualityData) => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`)
+  .join('');
 }
 
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
@@ -307,3 +314,4 @@ function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
 function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map((streakData) => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
+
