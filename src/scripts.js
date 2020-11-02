@@ -129,39 +129,34 @@ function getTodaysDate() {
 
 function submitNewHydration(userNowId) {
   let todaysDate = getTodaysDate();
-  let postedHydration = requests.postHydrationData(userNowId, todaysDate, +newHydrationInput.value);
-  Promise.all([postedHydration])
-    .then( () => {
+  requests.postHydrationData(userNowId, todaysDate, +newHydrationInput.value)
+    .then(() => {
       updatePageHydration(userNowId, todaysDate);
   });
 }
 
 function updatePageHydration (userNowId, todaysDate) {
-  let newRecievedHydration = requests.fetchHydrationData();
-  Promise.all([newRecievedHydration])
-    .then(value => {
-      hydrationData = value[0];
+  requests.fetchHydrationData().then(value => {
+      hydrationData = value;
       const newHydration = new Hydration(hydrationData);
       let hydrationElementsToClear = [hydrationToday];
       clearHtml(hydrationElementsToClear);
       addDailyOuncesInfo(userNowId, newHydration, todaysDate);
-    })
+  })
 }
 
 function submitNewActivity(userNowId) {
-  let todaysDate = getTodaysDate();
-  let postedActivity = requests.postActivityData(userNowId, todaysDate, +newStepsInput.value, +newActiveMinutesInput.value, +newStairsInput.value);
-  Promise.all([postedActivity])
+  let todaysDate = getTodaysDate()
+  requests.postActivityData(userNowId, todaysDate, +newStepsInput.value, +newActiveMinutesInput.value, +newStairsInput.value)
     .then(value => {
       updatePageActivity(userNowId, todaysDate)
     })
 }
 
 function updatePageActivity(userNowId, todaysDate) {
-  let newReceivedActivity = requests.fetchActivityData();
-  Promise.all([newReceivedActivity])
+  requests.fetchActivityData()
     .then(value => {
-      activityData = value[0];
+      activityData = value;
       const currentActivityRepo = new Activity(activityData);
       let activityElementsToClear = [
         userStairsToday, 
@@ -175,18 +170,15 @@ function updatePageActivity(userNowId, todaysDate) {
 
 function submitNewSleep(userNowId) {
   let todaysDate = getTodaysDate();
-  let postedSleep = requests.postSleepData(userNowId, todaysDate, +newHoursSlept.value, +newSleepQuality.value)
-  Promise.all([postedSleep])
-    .then(value => {
+  requests.postSleepData(userNowId, todaysDate, +newHoursSlept.value, +newSleepQuality.value)    .then(value => {
       updatePageSleep(userNowId, todaysDate)
     })
 }
 
 function updatePageSleep(userNowId, todaysDate) {
-  let newReceivedSleep = requests.fetchSleepData();
-  Promise.all([newReceivedSleep])
-    .then(value => {
-      sleepData = value[0];
+  requests.fetchSleepData()
+      .then(value => {
+      sleepData = value;
       const currentSleepRepo = new Sleep(sleepData);
       let sleepElementsToClear = [
         sleepToday,
